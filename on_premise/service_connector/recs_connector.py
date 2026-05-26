@@ -21,10 +21,22 @@ from on_premise.utils.logging import logger
 # ---------------------------------------------------------------------------
 # Defaults (overridable via env vars)
 # ---------------------------------------------------------------------------
-DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")
+DEFAULT_TOKEN         = os.getenv("RECS_TOOL_TOKEN", "")
 DEFAULT_CUSTOMER_NAME = os.getenv("RECS_CUSTOMER_NAME", "Banyan Cloud")
-PAGE_SIZE = 100          # records per page when fetching all pages
-TIMEOUT = httpx.Timeout(connect=30.0, read=120.0, write=30.0, pool=5.0)
+PAGE_SIZE             = 100
+TIMEOUT               = httpx.Timeout(connect=30.0, read=120.0, write=30.0, pool=5.0)
+_MAX_PAGES            = 500   # safety cap — prevents infinite loops on bad API responses
+
+
+def _sanitize_str(value: str | None) -> str:
+    """
+    Strip MongoDB/NoSQL operator injection characters from string query params.
+    Prevents NoSQL injection via user-supplied customerName or filter values.
+    """
+    if not value:
+        return ""
+    # Remove $, {, } which are MongoDB operator prefixes
+    return str(value).replace("$", "").replace("{", "").replace("}", "").strip()
 
 
 def _headers(token: str | None = None) -> dict:
@@ -35,7 +47,10 @@ def _headers(token: str | None = None) -> dict:
 
 
 def _base_url() -> str:
-    return os.getenv("RECS_TOOL_BASE_URL", "").rstrip("/")
+    url = os.getenv("RECS_TOOL_BASE_URL", "").rstrip("/")
+    if not url:
+        raise ValueError("RECS_TOOL_BASE_URL env var is not set.")
+    return url
 
 
 # ---------------------------------------------------------------------------
@@ -53,7 +68,7 @@ async def _fetch_all_pages(
     Response shape expected: { "data": [...], "recordsTotal": N }
     """
     url = f"{_base_url()}{path}"
-    customer_name = (extra_params or {}).get("customerName", DEFAULT_CUSTOMER_NAME)
+    customer_name = _sanitize_str((extra_params or {}).get("customerName", DEFAULT_CUSTOMER_NAME))
     base_params = {"customerName": customer_name, "order": "asc"}
     if extra_params:
         base_params.update({k: v for k, v in extra_params.items() if k != "customerName"})
@@ -62,7 +77,7 @@ async def _fetch_all_pages(
     page = 1
 
     async with httpx.AsyncClient(timeout=TIMEOUT, verify=False) as client:
-        while True:
+        while page <= _MAX_PAGES:
             params = {**base_params, "page": page, "limit": PAGE_SIZE}
             logger.info(f"RECSConnector  GET {url}  page={page}")
             response = await client.get(url, headers=_headers(token), params=params)
@@ -70,13 +85,12 @@ async def _fetch_all_pages(
             body = response.json()
 
             records = body.get("data", [])
-            if isinstance(records, list):
-                all_records.extend(records)
-            else:
+            if not isinstance(records, list) or not records:
                 break
+            all_records.extend(records)
 
-            total = body.get("recordsTotal", 0)
-            if len(all_records) >= total or not records:
+            total = int(body.get("recordsTotal", 0))
+            if len(all_records) >= total:
                 break
             page += 1
 

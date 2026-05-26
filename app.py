@@ -17,9 +17,13 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 
 # ---------------------------------------------------------------------------
-# On-Premise routers (no shift_left dependency)
+# On-Premise routers — named after their MongoDB collection
 # ---------------------------------------------------------------------------
-from on_premise.routers import  recs_router
+from on_premise.routers import (
+    recs_onprem_asset_master_details,
+    recs_onprem_asset_details,
+    recs_onprem_asset_final_compliance,
+)
 
 app = FastAPI(
     title="BanyanCloud On-Premise API",
@@ -80,8 +84,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(recs_router.router)
-# app.include_router(recs_router.router2)  # Uncomment to enable /api/v2/ endpoints
+app.include_router(recs_onprem_asset_master_details.router)    # Collection-1
+app.include_router(recs_onprem_asset_details.router)           # Collection-2
+app.include_router(recs_onprem_asset_final_compliance.router)  # Collection-3
 
 
 # Custom OpenAPI at /apidocs/apispec.json

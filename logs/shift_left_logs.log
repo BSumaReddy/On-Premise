@@ -271,3 +271,73 @@ INFO | 2026-05-25 23:54:29,553 | recs_repo.py:50 | upsert_asset | AssetMasterRep
 INFO | 2026-05-25 23:54:30,098 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=686d4d73-955a-4fa6-98fa-aca16d819357
 INFO | 2026-05-25 23:54:30,466 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=1bdef7f6-646f-473a-b7a1-21a0a4f5c756
 INFO | 2026-05-25 23:54:30,832 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=ce8e8480-1169-42e8-945b-978cc2892a3d
+INFO | 2026-05-25 23:57:07,390 | recs_router.py:183 | ingest_details | RECS ingest/details: calling API-2 (configuration)
+INFO | 2026-05-25 23:57:07,391 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=1
+INFO | 2026-05-25 23:57:08,297 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=2
+INFO | 2026-05-25 23:57:08,886 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=3
+INFO | 2026-05-25 23:57:09,314 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=4
+INFO | 2026-05-25 23:57:09,921 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=5
+INFO | 2026-05-25 23:57:10,346 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=6
+INFO | 2026-05-25 23:57:10,995 | recs_connector.py:83 | _fetch_all_pages | RECSConnector  /analyzer/compliance-manager/configuration  total_fetched=27
+INFO | 2026-05-25 23:57:10,995 | recs_router.py:198 | ingest_details | RECS ingest/details: calling API-3 (vulnerability)
+INFO | 2026-05-25 23:57:10,997 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=1
+INFO | 2026-05-25 23:57:23,424 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=2
+INFO | 2026-05-25 23:57:23,829 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=3
+INFO | 2026-05-25 23:57:24,230 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=4
+INFO | 2026-05-25 23:57:24,662 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=5
+INFO | 2026-05-25 23:57:25,024 | recs_connector.py:67 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=6
+INFO | 2026-05-25 23:57:25,583 | recs_connector.py:83 | _fetch_all_pages | RECSConnector  /analyzer/compliance-manager/vulnerability  total_fetched=27
+INFO | 2026-05-25 23:57:26,212 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=41831597-7e63-4020-b981-f6fa5e16bf79
+INFO | 2026-05-25 23:57:26,704 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=cf5194a9-5373-4078-9065-790f7a66c76b
+INFO | 2026-05-25 23:57:27,065 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=88466898-5176-4790-b811-725c0e56ed17
+INFO | 2026-05-25 23:57:41,318 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=7e891e2d-b4ac-4e52-94c2-80f2499deb2d
+INFO | 2026-05-25 23:57:41,753 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=a332b1e8-46ac-458a-8e13-8b2096ab3cb2
+INFO | 2026-05-25 23:57:42,167 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=58eb882f-f031-4eb9-8763-62ffbeb70fed
+INFO | 2026-05-25 23:57:42,352 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c686b0b8-72c2-447f-98ed-a9334484ff63
+INFO | 2026-05-25 23:57:42,717 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6db36409-e690-4fd6-8b3e-76c873959ff8
+INFO | 2026-05-25 23:57:43,121 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=9e458f38-3a7a-4307-924f-7ada69799d8b
+INFO | 2026-05-25 23:57:43,314 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d209fd70-1ffc-48f8-9638-033cfc9f2fb1
+INFO | 2026-05-25 23:57:43,498 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=864856d2-563a-4c4c-8f44-64161d57bf43
+INFO | 2026-05-25 23:57:43,865 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=cfbecc32-5303-4c00-89ec-c6800dd3aaa0
+INFO | 2026-05-25 23:57:44,273 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=290c13d2-ef49-4ea7-a812-de79fc13808e
+INFO | 2026-05-25 23:57:44,485 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=9310a7e9-f38e-4ec8-96e0-2a398f759ac5
+INFO | 2026-05-25 23:57:45,028 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=7a82a2f6-ad7b-4ef6-bee7-c0d0105c249a
+INFO | 2026-05-25 23:57:45,570 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6e853b21-7fb6-4727-9dcc-929a46ebb4bd
+INFO | 2026-05-25 23:57:46,115 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=756ff3a6-445d-4d96-8ee6-624f66395e83
+INFO | 2026-05-25 23:57:46,526 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=25e7b0b6-4655-4795-9f7b-73a3b05a3430
+INFO | 2026-05-25 23:57:46,930 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=594067a4-1b6f-4ce1-acb3-4e734ef13408
+INFO | 2026-05-25 23:57:47,381 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6187f906-d660-497d-bdd2-c0979e52fad6
+INFO | 2026-05-25 23:57:47,967 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d4eda95e-216c-44bc-874b-ee74113f14fa
+INFO | 2026-05-25 23:57:48,416 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e282cfc8-d76e-48c6-ab14-f5d10dc5fc6c
+INFO | 2026-05-25 23:57:48,820 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d6e844f2-50c0-42db-92cf-a813dd7822c6
+INFO | 2026-05-25 23:57:49,184 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=bf25a112-ee1f-4de3-b377-7f4f35b75162
+INFO | 2026-05-25 23:57:49,630 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=686d4d73-955a-4fa6-98fa-aca16d819357
+INFO | 2026-05-25 23:57:50,037 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=1bdef7f6-646f-473a-b7a1-21a0a4f5c756
+INFO | 2026-05-25 23:57:50,233 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ce8e8480-1169-42e8-945b-978cc2892a3d
+INFO | 2026-05-25 23:59:40,929 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=41831597-7e63-4020-b981-f6fa5e16bf79  controls=0
+INFO | 2026-05-25 23:59:41,471 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=cf5194a9-5373-4078-9065-790f7a66c76b  controls=0
+INFO | 2026-05-25 23:59:41,834 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=88466898-5176-4790-b811-725c0e56ed17  controls=0
+INFO | 2026-05-25 23:59:55,032 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=7e891e2d-b4ac-4e52-94c2-80f2499deb2d  controls=0
+INFO | 2026-05-25 23:59:55,235 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=a332b1e8-46ac-458a-8e13-8b2096ab3cb2  controls=0
+INFO | 2026-05-25 23:59:55,417 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=58eb882f-f031-4eb9-8763-62ffbeb70fed  controls=0
+INFO | 2026-05-25 23:59:55,600 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=c686b0b8-72c2-447f-98ed-a9334484ff63  controls=0
+INFO | 2026-05-25 23:59:55,963 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=6db36409-e690-4fd6-8b3e-76c873959ff8  controls=0
+INFO | 2026-05-25 23:59:56,411 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=9e458f38-3a7a-4307-924f-7ada69799d8b  controls=0
+INFO | 2026-05-25 23:59:56,595 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=d209fd70-1ffc-48f8-9638-033cfc9f2fb1  controls=0
+INFO | 2026-05-25 23:59:56,957 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=864856d2-563a-4c4c-8f44-64161d57bf43  controls=0
+INFO | 2026-05-25 23:59:57,360 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=cfbecc32-5303-4c00-89ec-c6800dd3aaa0  controls=0
+INFO | 2026-05-25 23:59:57,779 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=290c13d2-ef49-4ea7-a812-de79fc13808e  controls=0
+INFO | 2026-05-25 23:59:58,329 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=9310a7e9-f38e-4ec8-96e0-2a398f759ac5  controls=0
+INFO | 2026-05-25 23:59:58,514 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=7a82a2f6-ad7b-4ef6-bee7-c0d0105c249a  controls=0
+INFO | 2026-05-25 23:59:58,876 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=6e853b21-7fb6-4727-9dcc-929a46ebb4bd  controls=0
+INFO | 2026-05-25 23:59:59,419 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=756ff3a6-445d-4d96-8ee6-624f66395e83  controls=0
+INFO | 2026-05-25 23:59:59,974 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=25e7b0b6-4655-4795-9f7b-73a3b05a3430  controls=0
+INFO | 2026-05-26 00:00:00,348 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=594067a4-1b6f-4ce1-acb3-4e734ef13408  controls=0
+INFO | 2026-05-26 00:00:00,838 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=6187f906-d660-497d-bdd2-c0979e52fad6  controls=0
+INFO | 2026-05-26 00:00:01,200 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=d4eda95e-216c-44bc-874b-ee74113f14fa  controls=0
+INFO | 2026-05-26 00:00:01,580 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=e282cfc8-d76e-48c6-ab14-f5d10dc5fc6c  controls=0
+INFO | 2026-05-26 00:00:02,164 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=d6e844f2-50c0-42db-92cf-a813dd7822c6  controls=0
+INFO | 2026-05-26 00:00:02,347 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=bf25a112-ee1f-4de3-b377-7f4f35b75162  controls=0
+INFO | 2026-05-26 00:00:02,530 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=686d4d73-955a-4fa6-98fa-aca16d819357  controls=0
+INFO | 2026-05-26 00:00:03,115 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=1bdef7f6-646f-473a-b7a1-21a0a4f5c756  controls=0
+INFO | 2026-05-26 00:00:03,298 | recs_helper.py:202 | build_compliance_docs | build_compliance_docs  details_id=ce8e8480-1169-42e8-945b-978cc2892a3d  controls=0

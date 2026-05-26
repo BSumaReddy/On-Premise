@@ -1,0 +1,28 @@
+.space
+venv
+.venv
+.idea
+.vscode/
+
+# Logs
+logs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+
+# Env files
+environment.env
+*.env
+
+# Docs
+shift_left/docs/
+docs/
+
+# SQL
+shift_left/db_adapter/mongodb_collections.sql
+iac_aws.sql
+
