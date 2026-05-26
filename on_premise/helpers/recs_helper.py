@@ -1,7 +1,19 @@
 """
 RECS Helper — data transformation and ingestion orchestration logic.
 
-All MongoDB field names use lowercase snake_case.
+Responsibilities:
+  1. Build Collection-1 documents from raw API-1 asset payloads.
+  2. Build Collection-2 documents from API-2 + API-3 responses.
+  3. Explode cisBenchmarkData into per-CIS-control documents (Collection-3).
+  4. Explode InstalledApplications into per-application documents (Collection-4).
+  5. Orchestrate the full ingest pipeline for a single asset.
+
+Actual API response fields:
+  API-1/2/3 shared: ip_address, customerName, updated_date, Product, Vendor, Version,
+                    assetOwner, asset_id, asset_name, criticality, location, os, risk_score
+  API-2 extra:      cisBenchmarkData  (list of CIS control objects)
+  API-3 extra:      InstalledApplications (list of application/vulnerability objects),
+                    risk_score_percentage
 """
 
 import uuid
@@ -47,27 +59,27 @@ def build_asset_master_doc(raw_asset: dict) -> dict:
         # --- internal tracking ---
         "details_id":                          details_id,
         # --- schema fields ---
-        "onprem_siem_tool":                    RECS_TOOL_NAME,
-        "onprem_asset_name":                   raw_asset.get("asset_name") or "",
-        "onprem_asset_ip":                     raw_asset.get("ip_address") or "",
-        "onprem_asset_id":                     raw_asset.get("asset_id") or "",
-        "onprem_asset_type":                   raw_asset.get("Product") or raw_asset.get("os") or "",
-        "customer_name":                       raw_asset.get("customerName") or "",
-        "encs_tags":                           {
+        "Onprem_SIEM_tool":                    RECS_TOOL_NAME,
+        "Onprem_Asset_name":                   raw_asset.get("asset_name") or "",
+        "Onprem_Asset_Ip":                     raw_asset.get("ip_address") or "",
+        "Onprem_Asset_id":                     raw_asset.get("asset_id") or "",
+        "Onprem_Asset_Type":                   raw_asset.get("Product") or raw_asset.get("os") or "",
+        "Customer_Name":                       raw_asset.get("customerName") or "",
+        "ENCS_Tags":                           {
             "criticality": raw_asset.get("criticality"),
             "location":    raw_asset.get("location"),
             "risk_score":  raw_asset.get("risk_score"),
-            "vendor":      raw_asset.get("Vendor"),
-            "version":     raw_asset.get("Version"),
-            "asset_owner":  raw_asset.get("assetOwner"),
+            "Vendor":      raw_asset.get("Vendor"),
+            "Version":     raw_asset.get("Version"),
+            "assetOwner":  raw_asset.get("assetOwner"),
         },
-        "onprem_asset_info":                   raw_asset,
-        "last_configuration_assessment":       now_ts,
-        "last_vulnerability_assessment":       now_ts,
-        "created":                             now_ts,
-        "updated":                             now_ts,
-        "created_by":                          "system",
-        "updated_by":                          "system",
+        "Onprem_asset_info":                   raw_asset,
+        "Last_Configuration_assessment":       now_ts,
+        "Last_Vulnerability_Assessment":       now_ts,
+        "Created":                             now_ts,
+        "Updated":                             now_ts,
+        "Created_By":                          "system",
+        "Updated_By":                          "system",
         # --- convenience aliases (for repo queries) ---
         "asset_id":   raw_asset.get("asset_id") or "",
         "hostname":   raw_asset.get("asset_name") or "",
@@ -107,26 +119,26 @@ def build_asset_details_doc(
     )
 
     return {
-        "details_id":                   details_id,
-        "asset_id":                     asset_id,
-        "tool_name":                    RECS_TOOL_NAME,
+        "details_id":               details_id,
+        "asset_id":                 asset_id,
+        "tool_name":                RECS_TOOL_NAME,
         # --- schema fields ---
-        "onprem_asset_name":            asset_name,
-        "onprem_asset_ip":              ip_address,
-        "onprem_asset_id":              asset_id,
-        "services_application_details": config_rec.get("services") or [],
-        "process":                      config_rec.get("process") or [],
-        "open_ports":                   config_rec.get("open_ports") or config_rec.get("openPorts") or [],
-        "policies_applied":             config_rec.get("policies") or {},
-        "configuration_assessment":     config_rec.get("cisBenchmarkData") or [],
-        "vulnerabilities":              vuln_rec.get("InstalledApplications") or [],
+        "Onprem_Asset_name":        asset_name,
+        "Onprem_Asset_Ip":          ip_address,
+        "Onprem_Asset_id":          asset_id,
+        "services_Application_Details": config_rec.get("services") or [],
+        "Process":                  config_rec.get("process") or [],
+        "Open_ports":               config_rec.get("open_ports") or config_rec.get("openPorts") or [],
+        "Policies_Applied":         config_rec.get("policies") or {},
+        "Configuration_Assessment": config_rec.get("cisBenchmarkData") or [],
+        "Vulnerabilities":          vuln_rec.get("InstalledApplications") or [],
         # --- raw payloads ---
-        "raw_configuration":            config_rec,
-        "raw_vulnerability":            vuln_rec,
-        "created":                      now_ts,
-        "updated":                      now_ts,
-        "created_by":                   "system",
-        "updated_by":                   "system",
+        "raw_configuration": config_rec,
+        "raw_vulnerability":  vuln_rec,
+        "Created":   now_ts,
+        "Updated":   now_ts,
+        "Created_By": "system",
+        "Updated_By": "system",
     }
 
 
@@ -168,35 +180,35 @@ def build_compliance_docs(details_id: str, asset_id: str, configuration_data: di
         if not isinstance(ctrl, dict):
             continue
         docs.append({
-            "compliance_id":            str(uuid.uuid4()),
-            "details_id":               details_id,
-            "asset_id":                 asset_id,
-            "tool_name":                RECS_TOOL_NAME,
+            "compliance_id":        str(uuid.uuid4()),
+            "details_id":           details_id,
+            "asset_id":             asset_id,
+            "tool_name":            RECS_TOOL_NAME,
             # --- schema fields ---
-            "onprem_asset_name":        asset_name,
-            "onprem_asset_ip":          ip_address,
-            "onprem_asset_id":          asset_id,
-            "cis_control_id":           ctrl.get("CIS_Control_id") or ctrl.get("cis_control_id") or ctrl.get("control_id") or ctrl.get("id") or "",
-            "cis_map_details":          ctrl.get("Cis_map_details") or ctrl.get("cis_map_details") or "",
-            "bc_control_item_id":       ctrl.get("bc_control_item_id") or ctrl.get("BC_control_item_id") or "",
-            "control_title":            ctrl.get("control_title") or ctrl.get("title") or "",
-            "control_description":      ctrl.get("Control_description") or ctrl.get("control_description") or ctrl.get("description") or "",
-            "security_control_type":    ctrl.get("Security_Control_Type") or ctrl.get("security_control_type") or "",
-            "confidentiality":          ctrl.get("Confidentiality") or ctrl.get("confidentiality") or "",
-            "integrity":                ctrl.get("Integrity") or ctrl.get("integrity") or "",
-            "availability":             ctrl.get("Availability") or ctrl.get("availability") or "",
-            "overall_risk":             ctrl.get("Overall_Risk") or ctrl.get("overall_risk") or "",
-            "bc_hl_config_id":          ctrl.get("Bc_HL_Config_id") or ctrl.get("bc_hl_config_id") or {},
-            "bc_privacy_config_id":     ctrl.get("BC_privacy_Config_id") or ctrl.get("bc_privacy_config_id") or {},
-            "remediation_enabled":      ctrl.get("Remediation_enabled") or ctrl.get("remediation_enabled") or "",
-            "remediation_suggestions":  ctrl.get("Remediation_Suggestions") or ctrl.get("remediation_suggestions") or ctrl.get("remediation") or "",
-            "compliance_status":        ctrl.get("Compliance_Status") or ctrl.get("compliance_status") or ctrl.get("status") or ctrl.get("result") or "",
+            "Onprem_Asset_name":    asset_name,
+            "Onprem_Asset_Ip":      ip_address,
+            "Onprem_Asset_id":      asset_id,
+            "CIS_Control_id":       ctrl.get("CIS_Control_id") or ctrl.get("cis_control_id") or ctrl.get("control_id") or ctrl.get("id") or "",
+            "Cis_map_details":      ctrl.get("Cis_map_details") or ctrl.get("cis_map_details") or "",
+            "bc_control_item_id":   ctrl.get("bc_control_item_id") or "",
+            "control_title":        ctrl.get("control_title") or ctrl.get("title") or "",
+            "Control_description":  ctrl.get("Control_description") or ctrl.get("description") or "",
+            "Security_Control_Type": ctrl.get("Security_Control_Type") or ctrl.get("security_control_type") or "",
+            "Confidentiality":      ctrl.get("Confidentiality") or ctrl.get("confidentiality") or "",
+            "Integrity":            ctrl.get("Integrity") or ctrl.get("integrity") or "",
+            "Availability":         ctrl.get("Availability") or ctrl.get("availability") or "",
+            "Overall_Risk":         ctrl.get("Overall_Risk") or ctrl.get("overall_risk") or "",
+            "Bc_HL_Config_id":      ctrl.get("Bc_HL_Config_id") or {},
+            "BC_privacy_Config_id": ctrl.get("BC_privacy_Config_id") or {},
+            "Remediation_enabled":  ctrl.get("Remediation_enabled") or ctrl.get("remediation_enabled") or "",
+            "Remediation_Suggestions": ctrl.get("Remediation_Suggestions") or ctrl.get("remediation") or "",
+            "Compliance_Status":    ctrl.get("Compliance_Status") or ctrl.get("status") or ctrl.get("result") or "",
             # --- full raw item ---
-            "configuration_data":       ctrl,
-            "created":                  now_ts,
-            "updated":                  now_ts,
-            "created_by":               "system",
-            "updated_by":               "system",
+            "configuration_data":   ctrl,
+            "Created":   now_ts,
+            "Updated":   now_ts,
+            "Created_By": "system",
+            "Updated_By": "system",
         })
 
     logger.info(f"build_compliance_docs  details_id={details_id}  controls={len(docs)}")
@@ -205,6 +217,7 @@ def build_compliance_docs(details_id: str, asset_id: str, configuration_data: di
 
 # ===========================================================================
 # Collection-4 builder  (RECS_ONPREM_Asset_Application_Vulnerabilities)
+# Explode InstalledApplications → one doc per application entry
 # ===========================================================================
 
 def build_vulnerability_docs(details_id: str, asset_id: str, vulnerability_data: dict) -> list[dict]:
@@ -247,10 +260,10 @@ def build_vulnerability_docs(details_id: str, asset_id: str, vulnerability_data:
             "description":      app.get("description") or "",
             "fix_available":    app.get("fix_available") or False,
             "vulnerability_data": app,
-            "created":          now_ts,
-            "updated":          now_ts,
-            "created_by":       "system",
-            "updated_by":       "system",
+            "Created":   now_ts,
+            "Updated":   now_ts,
+            "Created_By": "system",
+            "Updated_By": "system",
         })
 
     logger.info(f"build_vulnerability_docs  details_id={details_id}  vulns={len(docs)}")

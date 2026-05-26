@@ -29,14 +29,6 @@ def _ts() -> float:
     return datetime.now(timezone.utc).timestamp()
 
 
-def _sanitize(value: str) -> str:
-    """
-    Strip MongoDB operator injection characters ($, {, }) from query values.
-    Prevents NoSQL injection via user-supplied filter parameters.
-    """
-    return str(value).replace("$", "").replace("{", "").replace("}", "").strip()
-
-
 # ===========================================================================
 # Collection-1 : RECS_ONPREM_Asset_master_details
 # ===========================================================================
@@ -72,7 +64,7 @@ class AssetMasterRepository:
         details_id: str, db: AsyncIOMotorDatabase
     ) -> dict | None:
         return await db[RECS_COLLECTION_ASSET_MASTER].find_one(
-            {"details_id": _sanitize(details_id)}, {"_id": 0}
+            {"details_id": details_id}, {"_id": 0}
         )
 
     @staticmethod
@@ -105,7 +97,7 @@ class AssetDetailsRepository:
         details_id: str, db: AsyncIOMotorDatabase
     ) -> dict | None:
         return await db[RECS_COLLECTION_ASSET_DETAILS].find_one(
-            {"details_id": _sanitize(details_id)}, {"_id": 0}
+            {"details_id": details_id}, {"_id": 0}
         )
 
 
@@ -151,7 +143,7 @@ class AssetComplianceRepository:
         details_id: str, db: AsyncIOMotorDatabase
     ) -> list[dict]:
         cursor = db[RECS_COLLECTION_COMPLIANCE].find(
-            {"details_id": _sanitize(details_id)}, {"_id": 0}
+            {"details_id": details_id}, {"_id": 0}
         )
         return await cursor.to_list(length=None)
 
@@ -160,6 +152,6 @@ class AssetComplianceRepository:
         cis_control_id: str, db: AsyncIOMotorDatabase
     ) -> list[dict]:
         cursor = db[RECS_COLLECTION_COMPLIANCE].find(
-            {"cis_control_id": _sanitize(cis_control_id)}, {"_id": 0}
+            {"cis_control_id": cis_control_id}, {"_id": 0}
         )
         return await cursor.to_list(length=None)

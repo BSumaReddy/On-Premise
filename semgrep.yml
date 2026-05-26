@@ -29,6 +29,6 @@ jobs:
 
       - name: Send Report to Backend
         run: |
-          curl -X POST "https://YOUR_BACKEND_URL/api/scan/upload" \
+          curl -X POST "https://my-backend.example.com/api/scan/upload" \
           -H "Content-Type: application/json" \
           -d @report.json
