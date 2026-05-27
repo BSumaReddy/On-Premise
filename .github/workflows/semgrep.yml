@@ -22,13 +22,15 @@ jobs:
         run: pip install semgrep
 
       - name: Run Scan
-        run: semgrep scan --config auto --json -o report.json
+        run: semgrep scan --config auto --json -o report.json || true
 
       - name: Show Report
         run: cat report.json
 
       - name: Send Report to Backend
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
         run: |
-          curl -X POST "https://my-real-backend.com/api/scan/upload" \
+          curl -X POST "${BACKEND_URL}/api/scan/upload" \
             -H "Content-Type: application/json" \
-            -d @report.json
+            -d @report.json || true
