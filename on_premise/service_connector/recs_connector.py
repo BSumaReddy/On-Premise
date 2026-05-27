@@ -20,14 +20,8 @@ from on_premise.utils.logging import logger
 # ---------------------------------------------------------------------------
 # Default token (can be overridden per-request)
 # ---------------------------------------------------------------------------
-DEFAULT_TOKEN = os.getenv(
-    "RECS_TOOL_TOKEN",
-    "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW55YW4uY2xvdWQiLCJleHAiOjE3Nzk3MTkwOTIsImlhdCI6MTc3OTcxMTg5Mn0"
-    ".AmBtG8n1-pv_oZF_35MdRm4C5t5WbRz4HGL-pGTeC1bobjsbdLJU-RjWp-h8p7vXsHzBLXC-mZHJ4Vedeaj3Sc"
-    "WWUS Xlejw4pKMLLRqL8atDFoiOvlhFBIMX4iLhVcQQPoP8TJc_fjFjkv7heuRteM_1SMi811ik-8QqJWgk-Px33n"
-    "OxS-eM7czODDckqjDz1zKK6uvmkP_C2fNL3wY_DQdAzSUxgPhqCCh-SrcvqoojZcXoAb1FkFJKZMYUZdzHdcfqUI"
-    "t8Hr-16i13u0EYUIfqXnp-8G3wlsa430DP8dl6-RdH5oYe0OWVjTVeuKxh1MoROtLGbZKVkPlVkCP6Yw",
-)
+# Token must be set via RECS_TOOL_TOKEN environment variable — never hardcode tokens
+DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")
 
 TIMEOUT = httpx.Timeout(connect=30.0, read=60.0, write=30.0, pool=5.0)
 

@@ -180,6 +180,24 @@ async def custom_redoc(request: Request):
     )
 
 
+@app.post("/api/scan/upload")
+async def upload_scan(request: Request):
+    """Receive Semgrep scan report from GitHub Actions CI pipeline."""
+    import json
+    from datetime import datetime
+    data = await request.json()
+    # Log the received report summary
+    results = data.get("results", [])
+    errors = data.get("errors", [])
+    print(f"[SCAN UPLOAD] {datetime.utcnow().isoformat()} | findings={len(results)} | errors={len(errors)}")
+    return {
+        "status": "received",
+        "findings": len(results),
+        "errors": len(errors),
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+
 @app.get("/healthz")
 def health_check():
     """Check the health status of the API service.

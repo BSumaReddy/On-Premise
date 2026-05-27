@@ -21,17 +21,93 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
 
+      - name: Download Previous Semgrep Report
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          name: semgrep-report
+          path: previous_report
+          if_no_artifact_found: warn
+        continue-on-error: true
+
       - name: Run Scan
         run: semgrep scan --config auto --json -o report.json || true
 
       - name: Show Report
         run: cat report.json
 
-      - name: Upload Report as Artifact
+      - name: Compute Fixed and New Findings
+        run: |
+          python3 - <<'EOF'
+          import json, os
+
+          def get_findings(path):
+              try:
+                  with open(path) as f:
+                      data = json.load(f)
+                  results = data.get("results", [])
+                  # Unique key: rule id + file + line + message
+                  return {
+                      f"{r['check_id']}|{r['path']}|{r['start']['line']}|{r['extra']['message']}"
+                      for r in results
+                  }
+              except Exception:
+                  return set()
+
+          prev_path = "previous_report/report.json"
+          curr_path = "report.json"
+
+          prev = get_findings(prev_path)
+          curr = get_findings(curr_path)
+
+          fixed   = prev - curr   # were in old, gone now
+          new     = curr - prev   # newly introduced
+          persist = curr & prev   # still present
+
+          summary = {
+              "total_current": len(curr),
+              "total_previous": len(prev),
+              "new_findings": len(new),
+              "fixed_findings": len(fixed),
+              "persistent_findings": len(persist),
+              "fixed": sorted(fixed),
+              "new": sorted(new),
+          }
+
+          with open("diff_report.json", "w") as f:
+              json.dump(summary, f, indent=2)
+
+          print("=== Semgrep Diff Summary ===")
+          print(f"  Previous findings : {len(prev)}")
+          print(f"  Current  findings : {len(curr)}")
+          print(f"  ✅ Fixed           : {len(fixed)}")
+          print(f"  🆕 New             : {len(new)}")
+          print(f"  ⚠️  Persistent      : {len(persist)}")
+
+          if fixed:
+              print("\n--- Fixed Issues ---")
+              for f_ in sorted(fixed):
+                  parts = f_.split("|")
+                  print(f"  [{parts[0]}] {parts[1]}:{parts[2]} — {parts[3]}")
+
+          if new:
+              print("\n--- New Issues ---")
+              for n in sorted(new):
+                  parts = n.split("|")
+                  print(f"  [{parts[0]}] {parts[1]}:{parts[2]} — {parts[3]}")
+          EOF
+
+      - name: Upload Current Report as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: semgrep-report
           path: report.json
+          overwrite: true
+
+      - name: Upload Diff Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-diff-report
+          path: diff_report.json
 
       - name: Send Report to Backend
         env:
@@ -40,3 +116,11 @@ jobs:
           curl --max-time 10 -X POST "${BACKEND_URL}/api/scan/upload" \
             -H "Content-Type: application/json" \
             -d @report.json || true
+
+      - name: Send Diff Report to Backend
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: |
+          curl --max-time 10 -X POST "${BACKEND_URL}/api/scan/diff" \
+            -H "Content-Type: application/json" \
+            -d @diff_report.json || true
