@@ -1,0 +1,12 @@
+# Semgrep ignore rules
+# Env files contain runtime secrets (already gitignored) — skip scanning them
+*.env
+environment.env
+
+# Logs
+logs/
+
+# Python cache
+__pycache__/
+*.pyc
+

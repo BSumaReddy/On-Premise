@@ -30,7 +30,12 @@ jobs:
         continue-on-error: true
 
       - name: Run Scan
-        run: semgrep scan --config auto --json -o report.json || true
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: |
+          # If SEMGREP_APP_TOKEN is set → results appear on semgrep.dev dashboard
+          # If not set → runs fully offline, results saved to report.json only
+          semgrep scan --config auto --json -o report.json || true
 
       - name: Show Report
         run: cat report.json

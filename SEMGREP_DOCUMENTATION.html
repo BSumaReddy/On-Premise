@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semgrep Security Scan — BanyanCloud On-Premise</title>
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6fb;
+      color: #1e2330;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Cover Page ── */
+    .cover {
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b3a5c 60%, #1e5799 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+      page-break-after: always;
+    }
+    .cover .logo-badge {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 16px;
+      padding: 18px 36px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      backdrop-filter: blur(6px);
+    }
+    .cover h1 {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .cover h1 span { color: #5bc8f5; }
+    .cover .subtitle {
+      font-size: 20px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 50px;
+      max-width: 600px;
+    }
+    .cover .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 520px;
+      width: 100%;
+      margin-bottom: 60px;
+    }
+    .cover .meta-item {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: left;
+    }
+    .cover .meta-item .label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #5bc8f5;
+      margin-bottom: 4px;
+    }
+    .cover .meta-item .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .cover .footer-note {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 24px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 32px 60px; }
+
+    /* ── TOC ── */
+    .toc-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      margin: 40px 0;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .toc-section h2 { font-size: 22px; margin-bottom: 24px; color: #0d1b2a; }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f4f6fb;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #1e2330;
+      transition: background 0.2s;
+    }
+    .toc-item:hover { background: #e3eaf5; }
+    .toc-item .num {
+      background: #1b3a5c;
+      color: #fff;
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .toc-item .text { font-size: 13.5px; font-weight: 500; }
+
+    /* ── Section ── */
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      margin: 32px 0;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f2f8;
+    }
+    .section-num {
+      background: linear-gradient(135deg, #1b3a5c, #1e5799);
+      color: #fff;
+      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .section h2 { font-size: 22px; color: #0d1b2a; font-weight: 700; }
+    .section h3 { font-size: 17px; color: #1b3a5c; font-weight: 700; margin: 24px 0 12px; }
+    .section h4 { font-size: 15px; color: #2c4a6e; font-weight: 700; margin: 18px 0 8px; }
+    .section p  { margin-bottom: 14px; color: #374151; }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    thead tr { background: #1b3a5c; color: #fff; }
+    thead th { padding: 12px 16px; text-align: left; font-weight: 600; letter-spacing: 0.3px; }
+    tbody tr { border-bottom: 1px solid #f0f2f8; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8faff; }
+    tbody td { padding: 11px 16px; color: #374151; }
+    tbody td:first-child { font-weight: 500; color: #1e2330; }
+
+    /* ── Code Blocks ── */
+    pre {
+      background: #0d1b2a;
+      color: #c9d1d9;
+      border-radius: 10px;
+      padding: 20px 22px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 14px 0;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+    code {
+      background: #edf2fb;
+      color: #1b3a5c;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 13px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+    pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+    /* ── Callout Boxes ── */
+    .callout {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .callout.info    { background: #eff6ff; border-left: 4px solid #3b82f6; }
+    .callout.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
+    .callout.success { background: #f0fdf4; border-left: 4px solid #22c55e; }
+    .callout.danger  { background: #fef2f2; border-left: 4px solid #ef4444; }
+    .callout .icon   { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .callout .body   { font-size: 14px; color: #374151; }
+    .callout .body strong { color: #1e2330; }
+
+    /* ── Step Cards ── */
+    .steps { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; }
+    .step-card {
+      display: flex;
+      gap: 16px;
+      background: #f8faff;
+      border: 1px solid #e5eaf5;
+      border-radius: 12px;
+      padding: 18px 20px;
+      align-items: flex-start;
+    }
+    .step-card .step-num {
+      background: linear-gradient(135deg, #1b3a5c, #1e5799);
+      color: #fff;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .step-card .step-body { flex: 1; }
+    .step-card .step-title { font-weight: 700; font-size: 15px; color: #1e2330; margin-bottom: 4px; }
+    .step-card .step-desc  { font-size: 13.5px; color: #4b5563; }
+    .step-card .step-badge {
+      background: #1b3a5c;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* ── Finding Cards ── */
+    .finding-card {
+      border: 1px solid #e5eaf5;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    .finding-card .finding-header {
+      background: linear-gradient(90deg, #fef2f2, #fff);
+      border-bottom: 1px solid #fecaca;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .finding-card .finding-header .sev {
+      background: #ef4444;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .finding-card .finding-header .title {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1e2330;
+    }
+    .finding-card .finding-body { padding: 20px; }
+
+    /* ── Run Cards ── */
+    .run-card {
+      border-radius: 12px;
+      padding: 24px;
+      margin: 16px 0;
+    }
+    .run-card.red    { background: #fef2f2; border: 1px solid #fecaca; }
+    .run-card.green  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .run-card.blue   { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .run-card .run-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+    .run-card.red   .run-title { color: #dc2626; }
+    .run-card.green .run-title { color: #16a34a; }
+    .run-card.blue  .run-title { color: #2563eb; }
+
+    /* ── Stat Boxes ── */
+    .stat-row { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+    .stat-box {
+      flex: 1;
+      min-width: 130px;
+      background: #f8faff;
+      border: 1px solid #e5eaf5;
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+    .stat-box .stat-val { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+    .stat-box .stat-lbl { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-box.red    .stat-val { color: #dc2626; }
+    .stat-box.green  .stat-val { color: #16a34a; }
+    .stat-box.yellow .stat-val { color: #d97706; }
+    .stat-box.blue   .stat-val { color: #2563eb; }
+
+    /* ── Diff Visual ── */
+    .diff-line { display: flex; align-items: flex-start; gap: 10px; padding: 6px 12px; border-radius: 6px; margin: 4px 0; font-family: monospace; font-size: 13px; }
+    .diff-line.add    { background: #f0fdf4; color: #166534; }
+    .diff-line.remove { background: #fef2f2; color: #991b1b; }
+    .diff-line .sign  { font-weight: 800; width: 14px; flex-shrink: 0; }
+
+    /* ── Architecture ── */
+    .arch-box {
+      background: #0d1b2a;
+      border-radius: 12px;
+      padding: 28px;
+      color: #c9d1d9;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+    .arch-box .hl   { color: #5bc8f5; font-weight: 700; }
+    .arch-box .grn  { color: #7ee787; }
+    .arch-box .ylw  { color: #e3b341; }
+    .arch-box .red  { color: #f85149; }
+
+    /* ── File Tree ── */
+    .file-tree {
+      background: #0d1b2a;
+      border-radius: 12px;
+      padding: 22px 26px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .file-tree .icon-scan    { color: #7ee787; }
+    .file-tree .icon-skip    { color: #f85149; }
+    .file-tree .icon-config  { color: #5bc8f5; }
+    .file-tree .icon-doc     { color: #e3b341; }
+    .file-tree .icon-warn    { color: #f59e0b; }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin: 0 3px;
+    }
+    .badge.error   { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .badge.warning { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+    .badge.info    { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    .badge.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .badge.dark    { background: #1e2330; color: #fff; }
+
+    /* ── Footer ── */
+    .doc-footer {
+      background: #0d1b2a;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 32px;
+      font-size: 13px;
+      margin-top: 48px;
+    }
+    .doc-footer strong { color: #5bc8f5; }
+
+    /* ── Print ── */
+    @media print {
+      .cover { page-break-after: always; }
+      .section { page-break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ COVER ══ -->
+<div class="cover">
+  <div class="logo-badge">🔐 BanyanCloud Security Engineering</div>
+  <h1>Semgrep <span>Security Scan</span><br>Documentation</h1>
+  <p class="subtitle">Automated SAST Integration for the On-Premise API — CI/CD Pipeline, Findings Tracking & Backend Reporting</p>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <div class="label">Project</div>
+      <div class="value">BanyanCloud On-Premise API</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Tool</div>
+      <div class="value">Semgrep v1.163.0 (OSS)</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Stack</div>
+      <div class="value">Python 3.10 · FastAPI</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">CI/CD</div>
+      <div class="value">GitHub Actions</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Document Type</div>
+      <div class="value">Technical Reference</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Last Updated</div>
+      <div class="value">May 2026</div>
+    </div>
+  </div>
+  <div class="footer-note">Confidential — BanyanCloud Inc. © 2026 · Internal Use Only</div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════════ TOC ══ -->
+<div class="toc-section">
+  <h2>📋 Table of Contents</h2>
+  <div class="toc-grid">
+    <a class="toc-item" href="#s1"><div class="num">1</div><div class="text">Overview</div></a>
+    <a class="toc-item" href="#s2"><div class="num">2</div><div class="text">Architecture Diagram</div></a>
+    <a class="toc-item" href="#s3"><div class="num">3</div><div class="text">Project Files Involved</div></a>
+    <a class="toc-item" href="#s4"><div class="num">4</div><div class="text">CI/CD Pipeline — Full Breakdown</div></a>
+    <a class="toc-item" href="#s5"><div class="num">5</div><div class="text">Semgrep Scan — How It Works</div></a>
+    <a class="toc-item" href="#s6"><div class="num">6</div><div class="text">Scan Output — report.json</div></a>
+    <a class="toc-item" href="#s7"><div class="num">7</div><div class="text">Diff Engine — Tracking Fixed Issues</div></a>
+    <a class="toc-item" href="#s8"><div class="num">8</div><div class="text">.semgrepignore — Scan Exclusions</div></a>
+    <a class="toc-item" href="#s9"><div class="num">9</div><div class="text">Backend Integration</div></a>
+    <a class="toc-item" href="#s10"><div class="num">10</div><div class="text">Security Findings — Real Example</div></a>
+    <a class="toc-item" href="#s11"><div class="num">11</div><div class="text">Fix Applied &amp; Verification</div></a>
+    <a class="toc-item" href="#s12"><div class="num">12</div><div class="text">Demo Walkthrough — Run by Run</div></a>
+    <a class="toc-item" href="#s13"><div class="num">13</div><div class="text">Severity &amp; Security Standards</div></a>
+    <a class="toc-item" href="#s14"><div class="num">14</div><div class="text">Custom Rules</div></a>
+    <a class="toc-item" href="#s15"><div class="num">15</div><div class="text">Troubleshooting</div></a>
+    <a class="toc-item" href="#s16"><div class="num">16</div><div class="text">Quick Reference Card</div></a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S1 ══ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Overview</h2>
+  </div>
+
+  <h3>What is Semgrep?</h3>
+  <p><strong>Semgrep</strong> (Semantic Grep) is an open-source <strong>Static Application Security Testing (SAST)</strong> tool. It scans source code <strong>without executing it</strong> to detect security vulnerabilities, hardcoded secrets, and dangerous coding patterns — before they reach production.</p>
+
+  <table>
+    <thead><tr><th>Tool Type</th><th>What It Checks</th><th>Used Here?</th></tr></thead>
+    <tbody>
+      <tr><td>Linters (flake8, pylint)</td><td>Code style, syntax errors</td><td>—</td></tr>
+      <tr><td><strong>Semgrep (SAST)</strong></td><td>Security vulnerabilities, hardcoded secrets, dangerous APIs</td><td>✅ Yes</td></tr>
+      <tr><td>Dependency Scanners (snyk)</td><td>Vulnerable third-party libraries</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Why We Use It</h3>
+  <table>
+    <thead><tr><th>Benefit</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>🔍 Finds secrets early</td><td>Detects hardcoded tokens before they reach git history</td></tr>
+      <tr><td>🤖 Fully automated</td><td>Runs on every push and pull request via GitHub Actions</td></tr>
+      <tr><td>📊 Tracks progress</td><td>Shows fixed vs new issues across every pipeline run</td></tr>
+      <tr><td>🔗 Backend reporting</td><td>Sends results to our dashboard via REST API after every scan</td></tr>
+      <tr><td>⚙️ Zero configuration</td><td><code>--config auto</code> auto-selects rules based on detected languages</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S2 ══ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Architecture Diagram</h2>
+  </div>
+
+  <div class="arch-box">
+<span class="hl">  Developer</span>
+     │
+     │  git push / pull_request
+     ▼
+┌────────────────────────────────────────────────────────────┐
+│            <span class="hl">GitHub Repository</span>  (main / test branch)       │
+└─────────────────────────┬──────────────────────────────────┘
+                          │ Trigger
+                          ▼
+┌────────────────────────────────────────────────────────────┐
+│          <span class="hl">GitHub Actions — semgrep.yml Pipeline</span>           │
+│                                                            │
+│  ① Checkout Code          clone repo                      │
+│  ② Setup Python 3.10      runtime for semgrep             │
+│  ③ Install Semgrep         pip install semgrep             │
+│  ④ Download Previous  ◄───────────────────────────────┐   │
+│     Report Artifact       previous_report/report.json  │   │
+│  ⑤ Run Semgrep Scan       → report.json (current)      │   │
+│  ⑥ Show Report             cat in logs                  │   │
+│  ⑦ Compute Diff            → diff_report.json          │   │
+│  ⑧ Upload report.json  ────────────────────────────────┘   │
+│     (overwrites artifact — becomes "previous" next run)    │
+│  ⑨ Upload diff_report.json (separate artifact)            │
+│  ⑩ POST → /api/scan/upload  &amp;  POST → /api/scan/diff      │
+└──────────────┬─────────────────────────┬───────────────────┘
+               │                         │
+               ▼                         ▼
+   <span class="grn">┌──────────────────┐     ┌─────────────────────────┐</span>
+   <span class="grn">│  GitHub          │     │   Your Backend API      │</span>
+   <span class="grn">│  Artifacts       │     │                         │</span>
+   <span class="grn">│  semgrep-report  │     │   POST /api/scan/upload  │</span>
+   <span class="grn">│  semgrep-diff    │     │   POST /api/scan/diff    │</span>
+   <span class="grn">└──────────────────┘     └─────────────────────────┘</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S3 ══ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Project Files Involved</h2>
+  </div>
+
+  <div class="file-tree">
+On-Premise/
+│
+├── .github/workflows/
+│   └── <span class="icon-config">semgrep.yml</span>              ←  🔧 CI/CD Pipeline definition
+│
+├── <span class="icon-config">.semgrepignore</span>               ←  🚫 Files excluded from scanning
+│
+├── <span class="icon-warn">environment.env</span>              ←  ⚠️  Runtime secrets (gitignored + semgrepignored)
+├── <span class="icon-scan">environment.env.example</span>      ←  ✅  Safe placeholder template for teammates
+│
+├── <span class="icon-scan">app.py</span>                       ←  🌐 FastAPI app (includes /api/scan/upload)
+│
+├── on_premise/
+│   ├── <span class="icon-scan">routers/</span>                 ←  🔍 Scanned by Semgrep
+│   ├── <span class="icon-scan">helpers/</span>                 ←  🔍 Scanned by Semgrep
+│   ├── service_connector/
+│   │   └── <span class="icon-scan">recs_connector.py</span>    ←  🔍 Scanned (had a finding — now resolved)
+│   └── <span class="icon-scan">utils/</span>                   ←  🔍 Scanned by Semgrep
+│
+└── <span class="icon-doc">SEMGREP_DOCUMENTATION.html</span>   ←  📄 This document
+  </div>
+
+  <h3>Generated Files Per CI Run (Not Committed)</h3>
+  <table>
+    <thead><tr><th>File</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td><code>report.json</code></td><td>Full Semgrep scan output for the current run</td></tr>
+      <tr><td><code>diff_report.json</code></td><td>Fixed / New / Persistent comparison with previous run</td></tr>
+      <tr><td><code>previous_report/report.json</code></td><td>Downloaded from last run's GitHub artifact</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S4 ══ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>CI/CD Pipeline — Full Breakdown</h2>
+  </div>
+
+  <h3>Trigger Conditions</h3>
+  <table>
+    <thead><tr><th>Event</th><th>Branch</th><th>Pipeline Runs?</th></tr></thead>
+    <tbody>
+      <tr><td><code>git push</code></td><td><code>main</code></td><td>✅ Yes</td></tr>
+      <tr><td><code>git push</code></td><td><code>test</code></td><td>✅ Yes</td></tr>
+      <tr><td><code>git push</code></td><td><code>feature/*</code></td><td>❌ No</td></tr>
+      <tr><td>Pull Request</td><td>any → any</td><td>✅ Yes</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Step-by-Step Explanation</h3>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-num">①</div>
+      <div class="step-body">
+        <div class="step-title">Checkout Code</div>
+        <div class="step-desc">Clones the repository into the GitHub Actions runner (Ubuntu VM). All source files are now available for scanning on the runner's filesystem.</div>
+        <pre><code>uses: actions/checkout@v4</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">②</div>
+      <div class="step-body">
+        <div class="step-title">Setup Python 3.10</div>
+        <div class="step-desc">Semgrep is a Python-based CLI tool. Python 3.10 must be installed on the runner before Semgrep can be installed and executed.</div>
+        <pre><code>uses: actions/setup-python@v5
+with:
+  python-version: "3.10"</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">③</div>
+      <div class="step-body">
+        <div class="step-title">Install Semgrep</div>
+        <div class="step-desc">Downloads and installs the Semgrep CLI from PyPI. This is the scanning engine that analyzes all source files.</div>
+        <pre><code>run: pip install semgrep</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">④</div>
+      <div class="step-body">
+        <div class="step-title">Download Previous Report <span class="step-badge">KEY STEP</span></div>
+        <div class="step-desc">Downloads <code>report.json</code> from the previous workflow run's artifact storage. This is what enables comparison between runs. On first run, no artifact exists — the step warns and continues.</div>
+        <pre><code>uses: dawidd6/action-download-artifact@v6
+with:
+  name: semgrep-report
+  path: previous_report
+  if_no_artifact_found: warn
+continue-on-error: true</code></pre>
+        <div class="callout info" style="margin-top:10px">
+          <div class="icon">ℹ️</div>
+          <div class="body"><strong>Why dawidd6 and not the official action?</strong> GitHub's official <code>download-artifact</code> can only download artifacts from the <em>same</em> run. <code>dawidd6/action-download-artifact</code> can download from <em>previous</em> workflow runs — which is required to compare scan results.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑤</div>
+      <div class="step-body">
+        <div class="step-title">Run Semgrep Scan <span class="step-badge">CORE SCAN</span></div>
+        <div class="step-desc">Executes the full security scan against all non-ignored files and saves results to <code>report.json</code>.</div>
+        <pre><code>run: semgrep scan --config auto --json -o report.json || true</code></pre>
+        <table style="margin-top:10px">
+          <thead><tr><th>Flag</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>--config auto</code></td><td>Auto-detect languages, download matching rules from semgrep.dev</td></tr>
+            <tr><td><code>--json</code></td><td>Output in machine-readable JSON format</td></tr>
+            <tr><td><code>-o report.json</code></td><td>Save output to report.json</td></tr>
+            <tr><td><code>|| true</code></td><td>Don't fail the pipeline even when findings exist</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑥</div>
+      <div class="step-body">
+        <div class="step-title">Show Report</div>
+        <div class="step-desc">Prints the raw <code>report.json</code> to GitHub Actions log output so developers can review findings directly in the CI interface without downloading artifacts.</div>
+        <pre><code>run: cat report.json</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑦</div>
+      <div class="step-body">
+        <div class="step-title">Compute Fixed and New Findings <span class="step-badge">KEY STEP</span></div>
+        <div class="step-desc">Inline Python script that loads both reports, computes set differences, writes <code>diff_report.json</code>, and prints a human-readable summary to logs.</div>
+        <pre><code>python3 - &lt;&lt;'EOF'
+  # Loads previous_report/report.json  (last run)
+  # Loads report.json                   (current run)
+  # fixed      = previous - current     (resolved issues)
+  # new        = current  - previous    (new issues)
+  # persistent = previous ∩ current     (still open)
+  # Writes → diff_report.json
+  # Prints → summary to Actions log
+EOF</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑧</div>
+      <div class="step-body">
+        <div class="step-title">Upload Current Report as Artifact</div>
+        <div class="step-desc">Saves <code>report.json</code> to GitHub Artifacts, <strong>overwriting</strong> the previous one. This report becomes the "previous" baseline for the next pipeline run — completing the memory cycle.</div>
+        <pre><code>uses: actions/upload-artifact@v4
+with:
+  name: semgrep-report
+  path: report.json
+  overwrite: true</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑨</div>
+      <div class="step-body">
+        <div class="step-title">Upload Diff Report as Artifact</div>
+        <div class="step-desc">Saves <code>diff_report.json</code> as a separate artifact. Downloadable under <strong>Actions → Run → Artifacts</strong> in GitHub UI.</div>
+        <pre><code>uses: actions/upload-artifact@v4
+with:
+  name: semgrep-diff-report
+  path: diff_report.json</code></pre>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">⑩</div>
+      <div class="step-body">
+        <div class="step-title">Send Reports to Backend</div>
+        <div class="step-desc">POSTs both reports to the BanyanCloud backend API. Pipeline does not fail if backend is unreachable (<code>|| true</code>).</div>
+        <pre><code>curl --max-time 10 -X POST "${BACKEND_URL}/api/scan/upload" \
+  -H "Content-Type: application/json" \
+  -d @report.json || true
+
+curl --max-time 10 -X POST "${BACKEND_URL}/api/scan/diff" \
+  -H "Content-Type: application/json" \
+  -d @diff_report.json || true</code></pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S5 ══ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Semgrep Scan — How It Works</h2>
+  </div>
+
+  <h3>What <code>--config auto</code> Downloads</h3>
+  <p>Semgrep detects Python + YAML files in the repo and auto-downloads matching rule packs:</p>
+  <table>
+    <thead><tr><th>Rule Pack</th><th>What It Checks</th></tr></thead>
+    <tbody>
+      <tr><td><code>p/python</code></td><td>Python-specific vulnerabilities (eval, pickle, exec, unsafe patterns)</td></tr>
+      <tr><td><code>p/secrets</code></td><td>Hardcoded tokens, API keys, passwords, JWT tokens</td></tr>
+      <tr><td><code>p/owasp-top-ten</code></td><td>OWASP Top 10 vulnerability patterns</td></tr>
+      <tr><td><code>p/security-audit</code></td><td>General security anti-patterns across languages</td></tr>
+      <tr><td><code>p/github-actions</code></td><td>Insecure workflow configurations in YAML files</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Files Scanned in This Project</h3>
+  <pre><code>✅  Scanned:
+    .github/workflows/semgrep.yml
+    app.py
+    on_premise/**/*.py          (all Python source files — 25+ files)
+    requirements.txt
+    README.md
+
+🚫  Skipped (via .semgrepignore):
+    environment.env
+    *.env
+    logs/
+    __pycache__/
+    *.pyc</code></pre>
+
+  <h3>How Semgrep Matches Patterns</h3>
+  <p>Semgrep uses <strong>AST (Abstract Syntax Tree)</strong> matching — not simple text search or regex. It understands code structure:</p>
+  <table>
+    <thead><tr><th>Approach</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td>Text/Regex search</td><td>Finds <code>eyJ</code> anywhere in any file, including comments, strings, docs</td></tr>
+      <tr><td><strong>Semgrep (AST)</strong></td><td>Finds JWT patterns specifically in variable assignments, understands context — not just text</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S6 ══ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Scan Output — report.json</h2>
+  </div>
+
+  <p>Every scan produces a <code>report.json</code> file. Here is the annotated structure:</p>
+  <pre><code>{
+  "version": "1.163.0",          // Semgrep version used
+
+  "results": [                   // All findings — empty [] = clean scan
+    {
+      "check_id": "generic.secrets.security.detected-jwt-token",
+                                 // Unique rule ID that triggered
+      "path": "environment.env", // File where the issue was found
+      "start": {
+        "line": 50,              // Exact line number
+        "col": 17,               // Column start
+        "offset": 1362           // Byte offset in file
+      },
+      "extra": {
+        "message": "JWT token detected",  // Human-readable description
+        "severity": "ERROR",              // ERROR / WARNING / INFO
+
+        "metadata": {
+          "category":    "security",
+          "confidence":  "LOW",
+          "likelihood":  "LOW",
+          "impact":      "MEDIUM",
+          "cwe":   ["CWE-321: Use of Hard-coded Cryptographic Key"],
+          "owasp": ["A02:2021 - Cryptographic Failures"],
+          "technology":  ["secrets", "jwt"],
+          "subcategory": ["audit"]        // audit = requires human review
+        },
+
+        "fingerprint": "unique-hash",     // For deduplication across runs
+        "engine_kind": "OSS"
+      }
+    }
+  ],
+
+  "errors":  [],                 // Parser errors — empty = successful scan
+
+  "paths": {
+    "scanned": ["app.py", ...]   // Every file that was checked
+  },
+
+  "time": {
+    "profiling_times": {
+      "total_time": 2.20         // Total scan duration (seconds)
+    }
+  }
+}</code></pre>
+
+  <h3>Field Reference</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>results</code></td><td>Array of all findings. Empty <code>[]</code> = completely clean scan</td></tr>
+      <tr><td><code>check_id</code></td><td>Unique rule identifier that triggered the finding</td></tr>
+      <tr><td><code>path</code></td><td>Relative file path of the affected file</td></tr>
+      <tr><td><code>start.line</code></td><td>Exact line number in the file</td></tr>
+      <tr><td><code>extra.message</code></td><td>Human-readable description of the issue</td></tr>
+      <tr><td><code>extra.severity</code></td><td><code>ERROR</code> / <code>WARNING</code> / <code>INFO</code></td></tr>
+      <tr><td><code>extra.metadata.cwe</code></td><td>CWE vulnerability standard IDs</td></tr>
+      <tr><td><code>extra.metadata.owasp</code></td><td>OWASP Top 10 categories</td></tr>
+      <tr><td><code>extra.fingerprint</code></td><td>Unique hash used for deduplication between runs</td></tr>
+      <tr><td><code>errors</code></td><td>Parser errors — empty means scan completed successfully</td></tr>
+      <tr><td><code>paths.scanned</code></td><td>Complete list of every file that was checked</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S7 ══ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Diff Engine — Tracking Fixed Issues</h2>
+  </div>
+
+  <p>This is the <strong>core feature</strong> that turns Semgrep from a simple scanner into a security progress tracker across every CI run.</p>
+
+  <h3>The Algorithm</h3>
+  <pre><code># Each finding is fingerprinted as a unique composite key:
+key = f"{rule_id}|{file_path}|{line_number}|{message}"
+
+# Example key:
+"generic.secrets.security.detected-jwt-token|environment.env|50|JWT token detected"
+
+# Set operations determine the status of each finding:
+fixed      = previous_findings - current_findings   # ✅ were present, now gone
+new        = current_findings  - previous_findings  # 🆕 appeared for first time
+persistent = previous_findings ∩ current_findings   # ⚠️ still unresolved</code></pre>
+
+  <h3>diff_report.json Structure</h3>
+  <pre><code>{
+  "total_current":       0,
+  "total_previous":      2,
+  "new_findings":        0,
+  "fixed_findings":      2,      // ✅ issues resolved since last run
+  "persistent_findings": 0,
+
+  "fixed": [
+    "generic.secrets...|environment.env|50|JWT token detected",
+    "generic.secrets...|recs_connector.py|25|JWT token detected"
+  ],
+  "new": []
+}</code></pre>
+
+  <h3>GitHub Actions Log Output</h3>
+  <pre><code>=== Semgrep Diff Summary ===
+  Previous findings : 2
+  Current  findings : 0
+  ✅ Fixed           : 2
+  🆕 New             : 0
+  ⚠️  Persistent      : 0
+
+--- Fixed Issues ---
+  [generic.secrets.security.detected-jwt-token] environment.env:50 — JWT token detected
+  [generic.secrets.security.detected-jwt-token] recs_connector.py:25 — JWT token detected</code></pre>
+
+  <h3>Memory Between Runs via Artifacts</h3>
+  <div class="arch-box">
+<span class="ylw">Run 1 (Monday)</span>
+  Scan   → 2 findings
+  Upload → artifact "semgrep-report" saved ────────────────────────┐
+                                                                    │
+<span class="ylw">Run 2 (Tuesday — fix applied)</span>                                       │
+  Download ◄── artifact "semgrep-report" ──────────────────────────┘
+           saved as previous_report/report.json
+  Scan   → 0 findings
+  Diff   → <span class="grn">fixed=2, new=0  ✅</span>
+  Upload → artifact updated ──────────────────────────────────────┐
+                                                                   │
+<span class="ylw">Run 3 (Wednesday — new code pushed)</span>                                │
+  Download ◄── artifact "semgrep-report" ─────────────────────────┘
+  Scan   → 1 new finding
+  Diff   → <span class="red">new=1  ⚠️  team is immediately alerted</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S8 ══ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>.semgrepignore — Scan Exclusions</h2>
+  </div>
+
+  <p>Located at the <strong>project root</strong>. Syntax is identical to <code>.gitignore</code>. Semgrep reads this file before scanning and skips all matching paths.</p>
+
+  <pre><code># Env files contain runtime secrets — skip scanning them
+# (already gitignored, but Semgrep scans physical files by default)
+*.env
+environment.env
+
+# Log files — not source code, may contain captured token values
+logs/
+
+# Python bytecode — not human-readable source
+__pycache__/
+*.pyc</code></pre>
+
+  <h3>Why .env Files Must Be Excluded</h3>
+  <div class="callout danger">
+    <div class="icon">❌</div>
+    <div class="body"><strong>Without .semgrepignore:</strong> Semgrep scans every file physically present on disk — including <code>environment.env</code>. Even though it's gitignored (not committed), it exists on the runner and is scanned, causing false positives for secrets that are intentionally stored there.</div>
+  </div>
+  <div class="callout success">
+    <div class="icon">✅</div>
+    <div class="body"><strong>With .semgrepignore (<code>*.env</code> rule):</strong> Semgrep skips <code>environment.env</code> entirely. The JWT finding disappears from the scan results.</div>
+  </div>
+
+  <h3>How to Add More Exclusions</h3>
+  <pre><code># Specific file
+sensitive_config.json
+
+# Entire folder
+migrations/
+tests/fixtures/
+
+# File extensions (certificates, private keys)
+*.pem
+*.key
+*.p12
+*.pfx</code></pre>
+
+  <h3>Inline Suppression (Per Line)</h3>
+  <pre><code># Add # nosemgrep at end of any line to suppress that specific finding only
+DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")  # nosemgrep</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ S9 ══ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Backend Integration</h2>
+  </div>
+
+  <h3>GitHub Secret Setup</h3>
+  <p>Navigate to: <strong>GitHub Repo → Settings → Secrets and Variables → Actions → New repository secret</strong></p>
+  <table>
+    <thead><tr><th>Secret Name</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><code>BACKEND_URL</code></td><td><code>https://your-backend-domain.com</code> (no trailing slash)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Endpoint 1 — Full Scan Report</h3>
+  <pre><code>POST /api/scan/upload
+Content-Type: application/json
+Body: report.json  (full Semgrep output)</code></pre>
+
+  <p><strong>Handler in app.py:</strong></p>
+  <pre><code>@app.post("/api/scan/upload")
+async def upload_scan(request: Request):
+    """Receive Semgrep scan report from GitHub Actions CI pipeline."""
+    data    = await request.json()
+    results = data.get("results", [])
+    errors  = data.get("errors",  [])
+    return {
+        "status":    "received",
+        "findings":  len(results),
+        "errors":    len(errors),
+        "timestamp": datetime.utcnow().isoformat()
+    }</code></pre>
+
+  <p><strong>Response:</strong></p>
+  <pre><code>{ "status": "received", "findings": 0, "errors": 0, "timestamp": "2026-05-27T10:30:00" }</code></pre>
+
+  <h3>Endpoint 2 — Diff Report</h3>
+  <pre><code>POST /api/scan/diff
+Content-Type: application/json
+Body: diff_report.json  (fixed/new/persistent summary)</code></pre>
+  <p><strong>Used for:</strong> Trend charts, alerting when new issues appear, fix rate tracking in the security dashboard.</p>
+
+  <h3>curl Flags Explained</h3>
+  <table>
+    <thead><tr><th>Flag</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>--max-time 10</code></td><td>Timeout after 10 seconds — prevents pipeline hanging</td></tr>
+      <tr><td><code>-X POST</code></td><td>HTTP POST method</td></tr>
+      <tr><td><code>${{ secrets.BACKEND_URL }}</code></td><td>URL injected from GitHub repository secret at runtime</td></tr>
+      <tr><td><code>-d @report.json</code></td><td><code>@</code> means "read body from file" instead of inline string</td></tr>
+      <tr><td><code>|| true</code></td><td>Don't fail the pipeline if backend is unreachable</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S10 ══ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Security Findings — Real Example</h2>
+  </div>
+  <p>These are the <strong>actual findings</strong> from the first scan of this project.</p>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="sev">ERROR</span>
+      <span class="title">Finding 1 — Hardcoded JWT Token in environment.env</span>
+    </div>
+    <div class="finding-body">
+      <table>
+        <thead><tr><th>Field</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Rule ID</td><td><code>generic.secrets.security.detected-jwt-token</code></td></tr>
+          <tr><td>File</td><td><code>environment.env</code></td></tr>
+          <tr><td>Line</td><td>50</td></tr>
+          <tr><td>Severity</td><td><span class="badge error">ERROR</span></td></tr>
+          <tr><td>CWE</td><td>CWE-321: Use of Hard-coded Cryptographic Key</td></tr>
+          <tr><td>OWASP</td><td>A02:2021 — Cryptographic Failures</td></tr>
+          <tr><td>Confidence</td><td>LOW</td></tr>
+          <tr><td>Impact</td><td>MEDIUM</td></tr>
+        </tbody>
+      </table>
+      <h4>Vulnerable Code (Line 50)</h4>
+      <pre><code>RECS_TOOL_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW55YW4uY2xvdWQi...
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#               Real JWT — Semgrep detects the "eyJ..." Base64 header pattern</code></pre>
+      <div class="callout danger">
+        <div class="icon">⚠️</div>
+        <div class="body"><strong>Risk:</strong> JWT tokens grant access to the RECS compliance-manager tool. If accidentally committed, the token remains in git history permanently and can be extracted by anyone with repository access to impersonate the service.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-header">
+      <span class="sev">ERROR</span>
+      <span class="title">Finding 2 — JWT Detected in recs_connector.py</span>
+    </div>
+    <div class="finding-body">
+      <table>
+        <thead><tr><th>Field</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Rule ID</td><td><code>generic.secrets.security.detected-jwt-token</code></td></tr>
+          <tr><td>File</td><td><code>on_premise/service_connector/recs_connector.py</code></td></tr>
+          <tr><td>Line</td><td>25</td></tr>
+          <tr><td>Severity</td><td><span class="badge error">ERROR</span></td></tr>
+          <tr><td>CWE</td><td>CWE-321: Use of Hard-coded Cryptographic Key</td></tr>
+          <tr><td>OWASP</td><td>A02:2021 — Cryptographic Failures</td></tr>
+        </tbody>
+      </table>
+      <h4>Code at Line 25</h4>
+      <pre><code>DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")</code></pre>
+      <div class="callout warning">
+        <div class="icon">💡</div>
+        <div class="body"><strong>Why it was flagged:</strong> At scan time, Semgrep resolved the environment variable value from <code>environment.env</code> and detected the real JWT. After <code>.semgrepignore</code> excludes <code>*.env</code>, the env file is not read during scanning — this finding disappears automatically.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S11 ══ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <h2>Fix Applied &amp; Verification</h2>
+  </div>
+
+  <h3>Fix 1 — Replace Real JWT with Placeholder</h3>
+  <p><strong>File:</strong> <code>environment.env</code></p>
+  <div class="diff-line remove"><span class="sign">−</span> RECS_TOOL_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW55YW4uY2xvdWQi...</div>
+  <div class="diff-line add"><span class="sign">+</span> RECS_TOOL_TOKEN=&lt;REPLACE_WITH_YOUR_JWT_TOKEN&gt;</div>
+
+  <div class="callout warning" style="margin-top:14px">
+    <div class="icon">⚠️</div>
+    <div class="body"><strong>To get a fresh token:</strong> Open the app in browser → DevTools (F12) → Network tab → Any API request → <code>Authorization</code> header → copy the <code>Bearer &lt;token&gt;</code> value and paste it into <code>environment.env</code> locally.</div>
+  </div>
+
+  <h3>Fix 2 — Create .semgrepignore</h3>
+  <p><strong>File:</strong> <code>.semgrepignore</code> (created at project root)</p>
+  <pre><code>*.env
+environment.env
+logs/
+__pycache__/
+*.pyc</code></pre>
+  <p>Permanently prevents Semgrep from scanning <code>.env</code> files in all future runs.</p>
+
+  <h3>Fix 3 — Create environment.env.example</h3>
+  <p><strong>File:</strong> <code>environment.env.example</code> (safe committed template for teammates)</p>
+  <pre><code>RECS_TOOL_TOKEN=&lt;REPLACE_WITH_YOUR_JWT_TOKEN&gt;
+RECS_TOOL_BASE_URL=http://&lt;HOST&gt;:&lt;PORT&gt;/
+MONGO_DB_CLIENT_URL=mongodb://&lt;USER&gt;:&lt;PASSWORD&gt;@&lt;HOST&gt;:&lt;PORT&gt;/&lt;DB&gt;</code></pre>
+
+  <h3>Expected Scan After Fix</h3>
+  <div class="stat-row">
+    <div class="stat-box red"><div class="stat-val">2</div><div class="stat-lbl">Before Fix</div></div>
+    <div class="stat-box green"><div class="stat-val">0</div><div class="stat-lbl">After Fix</div></div>
+    <div class="stat-box green"><div class="stat-val">2</div><div class="stat-lbl">Fixed ✅</div></div>
+    <div class="stat-box blue"><div class="stat-val">0</div><div class="stat-lbl">New 🆕</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S12 ══ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <h2>Demo Walkthrough — Run by Run</h2>
+  </div>
+
+  <div class="run-card red">
+    <div class="run-title">🔴 Run 1 — Discovery (Before Fix)</div>
+    <pre><code>Trigger:   git push main  (initial commit)
+Previous:  no artifact exists (first run ever)
+
+Semgrep scans 38 files including environment.env
+
+Findings: 2
+  ❌  environment.env:50       → JWT token hardcoded
+  ❌  recs_connector.py:25     → JWT token detected
+
+diff_report.json:
+  previous=0, current=2, fixed=0, new=2
+
+GitHub Actions log:
+  🆕 New : 2
+
+Pipeline:  ✅ green  (|| true prevents failure on findings)
+
+Backend receives:
+  POST /api/scan/upload  →  { "findings": 2 }
+  POST /api/scan/diff    →  { "new_findings": 2, "fixed_findings": 0 }</code></pre>
+  </div>
+
+  <div class="run-card green">
+    <div class="run-title">✅ Run 2 — Fix Applied</div>
+    <pre><code>Trigger:   git push main  ("fix: remove hardcoded JWT, add .semgrepignore")
+
+Changes applied:
+  - environment.env  → real JWT replaced with placeholder
+  - .semgrepignore   → created, excludes *.env files
+
+Semgrep scans 37 files  (environment.env now skipped by .semgrepignore)
+
+Findings: 0
+
+diff_report.json:
+  previous=2, current=0, fixed=2, new=0
+
+GitHub Actions log:
+  ✅ Fixed           : 2
+  🆕 New             : 0
+  ⚠️  Persistent      : 0
+
+  --- Fixed Issues ---
+  [detected-jwt-token] environment.env:50 — JWT token detected
+  [detected-jwt-token] recs_connector.py:25 — JWT token detected
+
+Pipeline:  ✅ green, 0 findings
+
+Backend receives:
+  POST /api/scan/upload  →  { "findings": 0 }
+  POST /api/scan/diff    →  { "fixed_findings": 2, "new_findings": 0 }</code></pre>
+  </div>
+
+  <div class="run-card blue">
+    <div class="run-title">🔄 Run 3 — Ongoing (New Code Pushed)</div>
+    <pre><code>Trigger:   git push main  (new feature added)
+
+If scan is clean:
+  diff → fixed=0, new=0, persistent=0  ✅  all clear
+
+If new issue introduced in new code:
+  diff → new=1  ⚠️  team is immediately alerted via Actions log + backend</code></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ S13 ══ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-num">13</div>
+    <h2>Severity &amp; Security Standards Reference</h2>
+  </div>
+
+  <h3>Semgrep Severity Levels</h3>
+  <table>
+    <thead><tr><th>Level</th><th>Icon</th><th>Meaning</th><th>Recommended Action</th></tr></thead>
+    <tbody>
+      <tr><td><code>ERROR</code></td><td>🔴</td><td>High severity — likely exploitable</td><td>Fix before merging to main</td></tr>
+      <tr><td><code>WARNING</code></td><td>🟡</td><td>Medium severity — potential risk</td><td>Review and plan to fix soon</td></tr>
+      <tr><td><code>INFO</code></td><td>🔵</td><td>Informational — best practice</td><td>Fix when time permits</td></tr>
+    </tbody>
+  </table>
+
+  <h3>CWE — Common Weakness Enumeration</h3>
+  <table>
+    <thead><tr><th>CWE ID</th><th>Name</th><th>Example in Code</th></tr></thead>
+    <tbody>
+      <tr><td>CWE-321</td><td>Hard-coded Cryptographic Key</td><td>JWT token in <code>.env</code> file ← <em>our finding</em></td></tr>
+      <tr><td>CWE-89</td><td>SQL Injection</td><td>Raw f-string passed to SQL query</td></tr>
+      <tr><td>CWE-78</td><td>OS Command Injection</td><td><code>os.system(user_input)</code></td></tr>
+      <tr><td>CWE-502</td><td>Unsafe Deserialization</td><td><code>pickle.loads(request_data)</code></td></tr>
+      <tr><td>CWE-918</td><td>Server-Side Request Forgery</td><td>Fetching user-supplied URLs</td></tr>
+      <tr><td>CWE-326</td><td>Inadequate Encryption Strength</td><td>MD5 / SHA1 used for passwords</td></tr>
+    </tbody>
+  </table>
+
+  <h3>OWASP Top 10 (2021)</h3>
+  <table>
+    <thead><tr><th>OWASP</th><th>Category</th><th>Relevant CWE</th></tr></thead>
+    <tbody>
+      <tr><td>A01</td><td>Broken Access Control</td><td>CWE-284, CWE-285</td></tr>
+      <tr><td><strong>A02</strong></td><td><strong>Cryptographic Failures ← our finding</strong></td><td>CWE-321, CWE-326</td></tr>
+      <tr><td>A03</td><td>Injection</td><td>CWE-89, CWE-78</td></tr>
+      <tr><td>A04</td><td>Insecure Design</td><td>CWE-73</td></tr>
+      <tr><td>A05</td><td>Security Misconfiguration</td><td>CWE-16</td></tr>
+      <tr><td>A09</td><td>Security Logging Failures</td><td>CWE-778</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ S14 ══ -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <div class="section-num">14</div>
+    <h2>Custom Rules</h2>
+  </div>
+  <p>Create project-specific rules in <code>semgrep-rules/custom.yml</code>:</p>
+  <pre><code>rules:
+
+  # Block print statements — use logger instead
+  - id: no-print-statements
+    pattern: print(...)
+    message: "Use logger.info() instead of print() for consistent log management"
+    languages: [python]
+    severity: WARNING
+
+  # Detect hardcoded internal IPs
+  - id: no-hardcoded-ips
+    patterns:
+      - pattern: $X = "172.16.$A.$B"
+      - pattern: $X = "10.0.$A.$B"
+    message: "Do not hardcode IP addresses — use environment variables"
+    languages: [python]
+    severity: ERROR
+
+  # Enforce Bearer token from env only
+  - id: no-hardcoded-bearer-tokens
+    pattern: $VAR = "Bearer $TOKEN"
+    message: "Bearer tokens must not be hardcoded — use os.getenv()"
+    languages: [python]
+    severity: ERROR
+
+  # Require timeout on all HTTP requests
+  - id: requests-no-timeout
+    pattern: requests.get($URL)
+    message: "Always specify timeout= in requests.get() to prevent hangs"
+    languages: [python]
+    severity: WARNING</code></pre>
+
+  <h3>Enable in Pipeline</h3>
+  <pre><code># semgrep.yml — update the scan step:
+- name: Run Scan
+  run: semgrep scan --config auto --config semgrep-rules/ --json -o report.json || true</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ S15 ══ -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <div class="section-num">15</div>
+    <h2>Troubleshooting</h2>
+  </div>
+
+  <h3>❓ "No previous artifact" warning on every run</h3>
+  <div class="callout info"><div class="icon">ℹ️</div><div class="body"><strong>Cause:</strong> First run ever, artifact expired (90-day retention), or workflow renamed.<br><strong>Fix:</strong> Expected on first run. <code>continue-on-error: true</code> handles it gracefully. Diff will show <code>previous=0</code>.</div></div>
+
+  <h3>❓ False positive — safe code is being flagged</h3>
+  <pre><code># Option A — Inline suppression (specific line)
+DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")  # nosemgrep
+
+# Option B — Rule-level suppression
+# nosemgrep: generic.secrets.security.detected-jwt-token
+DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")</code></pre>
+  <p>Or add the file/folder to <code>.semgrepignore</code>.</p>
+
+  <h3>❓ Backend POST not receiving data</h3>
+  <ol style="padding-left:20px;color:#374151;font-size:14px;line-height:2">
+    <li>Confirm <code>BACKEND_URL</code> secret is set: GitHub → Repo → Settings → Secrets → Actions</li>
+    <li>No trailing slash: <code>https://example.com</code> ✅ not <code>https://example.com/</code> ❌</li>
+    <li>Backend must be accessible from GitHub Actions public IP ranges</li>
+    <li>Backend must accept <code>Content-Type: application/json</code></li>
+    <li>Check pipeline logs — curl response is printed even with <code>|| true</code></li>
+  </ol>
+
+  <h3>❓ Scan is slow or times out</h3>
+  <pre><code># Use targeted rule packs instead of full auto
+semgrep scan --config p/python --config p/secrets --json -o report.json || true
+
+# Only scan ERROR severity findings
+semgrep scan --config auto --severity ERROR --json -o report.json || true</code></pre>
+
+  <h3>❓ Too many findings / noisy results</h3>
+  <pre><code># Add to .semgrepignore
+tests/
+migrations/
+scripts/
+docs/</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ S16 ══ -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <div class="section-num">16</div>
+    <h2>Quick Reference Card</h2>
+  </div>
+
+  <h3>Key Files</h3>
+  <table>
+    <thead><tr><th>File</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>.github/workflows/semgrep.yml</code></td><td>Pipeline — runs on every push / PR</td></tr>
+      <tr><td><code>.semgrepignore</code></td><td>Exclusions — files Semgrep skips</td></tr>
+      <tr><td><code>environment.env</code></td><td>Runtime secrets (gitignored + semgrepignored)</td></tr>
+      <tr><td><code>environment.env.example</code></td><td>Safe template — committed to repo</td></tr>
+      <tr><td><code>report.json</code></td><td>Generated per run — full scan results</td></tr>
+      <tr><td><code>diff_report.json</code></td><td>Generated per run — fixed/new/persistent comparison</td></tr>
+    </tbody>
+  </table>
+
+  <h3>CLI Commands</h3>
+  <pre><code># Install Semgrep
+pip install semgrep
+
+# Run exactly as CI does (saves to report.json)
+semgrep scan --config auto --json -o report.json
+
+# Run and print results to terminal
+semgrep scan --config auto
+
+# Scan a single file
+semgrep scan --config auto on_premise/service_connector/recs_connector.py
+
+# Only ERROR severity
+semgrep scan --config auto --severity ERROR
+
+# Auto + custom rules combined
+semgrep scan --config auto --config semgrep-rules/ --json -o report.json</code></pre>
+
+  <h3>GitHub Secrets Required</h3>
+  <table>
+    <thead><tr><th>Secret Name</th><th>Example Value</th></tr></thead>
+    <tbody>
+      <tr><td><code>BACKEND_URL</code></td><td><code>https://appqa.banyancloud.io:31432</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Backend Endpoints</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Payload</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge dark">POST</span></td><td><code>/api/scan/upload</code></td><td>Full <code>report.json</code></td></tr>
+      <tr><td><span class="badge dark">POST</span></td><td><code>/api/scan/diff</code></td><td><code>diff_report.json</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Diff Status Summary</h3>
+  <table>
+    <thead><tr><th>Status</th><th>Condition</th><th>Icon</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Fixed</strong></td><td>Present in previous scan, absent in current</td><td>✅</td></tr>
+      <tr><td><strong>New</strong></td><td>Absent in previous scan, present in current</td><td>🆕</td></tr>
+      <tr><td><strong>Persistent</strong></td><td>Present in both previous and current scans</td><td>⚠️</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /.page -->
+
+<div class="doc-footer">
+  <strong>BanyanCloud On-Premise</strong> — Semgrep Security Integration<br>
+  Last Updated: May 2026 &nbsp;|&nbsp; Semgrep v1.163.0 &nbsp;|&nbsp; FastAPI v0.110.3 &nbsp;|&nbsp; Python 3.10<br>
+  Confidential — BanyanCloud Inc. © 2026
+</div>
+
+</body>
+</html>
+
