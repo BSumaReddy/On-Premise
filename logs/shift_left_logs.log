@@ -271,3 +271,285 @@ INFO | 2026-05-25 23:54:29,553 | recs_repo.py:50 | upsert_asset | AssetMasterRep
 INFO | 2026-05-25 23:54:30,098 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=686d4d73-955a-4fa6-98fa-aca16d819357
 INFO | 2026-05-25 23:54:30,466 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=1bdef7f6-646f-473a-b7a1-21a0a4f5c756
 INFO | 2026-05-25 23:54:30,832 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=ce8e8480-1169-42e8-945b-978cc2892a3d
+INFO | 2026-06-02 18:34:10,393 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:34:10,396 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+ERROR | 2026-06-02 18:34:11,214 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:34:11,216 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:34:50,430 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:34:50,431 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+ERROR | 2026-06-02 18:34:51,230 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:34:51,230 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:37:55,284 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:37:55,286 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+ERROR | 2026-06-02 18:37:56,129 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:37:56,133 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:42:54,852 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:42:54,853 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-02 18:42:54,854 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+ERROR | 2026-06-02 18:42:56,207 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:42:56,207 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:43:19,124 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:43:19,125 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-02 18:43:19,127 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+ERROR | 2026-06-02 18:43:20,845 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:43:20,845 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:43:59,851 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:43:59,852 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-02 18:43:59,853 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+ERROR | 2026-06-02 18:44:01,683 | recs_router.py:166 | ingest_assets | API-1 failed — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+ERROR | 2026-06-02 18:44:01,684 | exception_handler.py:50 | _log_error | {'error_trace': 'Traceback (most recent call last):\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/utils/exception_handler.py", line 166, in async_wrapper\n    return await func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/b2113411/Git_WorkSpace/On-Premise/on_premise/routers/recs_router.py", line 167, in ingest_assets\n    raise CustomExceptions(\non_premise.utils.custom_exceptions.CustomExceptions: Cannot reach compliance-manager at \'http://172.16.1.212:18180/\'. Error: Client error \'403 \' for url \'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100\'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403\n', 'func': 'ingest_assets'}
+INFO | 2026-06-02 18:44:44,109 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-02 18:44:44,112 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-02 18:44:44,114 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+WARNING | 2026-06-02 18:44:46,017 | recs_router.py:166 | ingest_assets | Squeteek API-1 failed (non-fatal) — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+INFO | 2026-06-02 18:44:46,017 | recs_router.py:180 | ingest_assets | No Squeteek assets — building 17 records from Wazuh agents
+INFO | 2026-06-02 18:44:49,605 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=294f03a9-e342-41c9-8de4-d5d61e6f0008
+INFO | 2026-06-02 18:44:50,273 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=294f03a9-e342-41c9-8de4-d5d61e6f0008
+INFO | 2026-06-02 18:44:50,675 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=ff2a519c-833b-4932-a1bc-b24402da54fd
+INFO | 2026-06-02 18:44:51,118 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ff2a519c-833b-4932-a1bc-b24402da54fd
+INFO | 2026-06-02 18:44:51,563 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=0ada1a81-6067-4a0d-babe-1dcb85aeec5e
+INFO | 2026-06-02 18:44:51,940 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=0ada1a81-6067-4a0d-babe-1dcb85aeec5e
+INFO | 2026-06-02 18:44:52,385 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=8ac9291c-7789-4979-8c54-e6ff401ea1b2
+INFO | 2026-06-02 18:44:52,821 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=8ac9291c-7789-4979-8c54-e6ff401ea1b2
+INFO | 2026-06-02 18:44:53,012 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=f3d5c869-2bf6-4dea-bd31-06634e43748b
+INFO | 2026-06-02 18:44:53,202 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=f3d5c869-2bf6-4dea-bd31-06634e43748b
+INFO | 2026-06-02 18:44:53,646 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=2f2b7e05-2e34-40a3-989b-574f61c1ca80
+INFO | 2026-06-02 18:44:54,091 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=2f2b7e05-2e34-40a3-989b-574f61c1ca80
+INFO | 2026-06-02 18:44:54,547 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=2bc0d8be-7b9e-4db5-8849-d0df5cca19b1
+INFO | 2026-06-02 18:44:55,008 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=2bc0d8be-7b9e-4db5-8849-d0df5cca19b1
+INFO | 2026-06-02 18:44:55,455 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=136a5da2-c70a-4b32-8193-9bb1e291f394
+INFO | 2026-06-02 18:44:55,914 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=136a5da2-c70a-4b32-8193-9bb1e291f394
+INFO | 2026-06-02 18:44:56,361 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=749db32e-7893-4622-9dec-0f389b7e45c0
+INFO | 2026-06-02 18:44:56,808 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=749db32e-7893-4622-9dec-0f389b7e45c0
+INFO | 2026-06-02 18:44:57,199 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=96a0a4fe-b03d-484f-a474-955a052a4f84
+INFO | 2026-06-02 18:44:57,709 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=96a0a4fe-b03d-484f-a474-955a052a4f84
+INFO | 2026-06-02 18:44:58,165 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=c327646b-5667-441a-bbfa-16f6a394d3e5
+INFO | 2026-06-02 18:44:58,348 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c327646b-5667-441a-bbfa-16f6a394d3e5
+INFO | 2026-06-02 18:44:58,758 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=ea61103c-eb91-4934-8b1f-6a2393fbb43a
+INFO | 2026-06-02 18:44:59,303 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ea61103c-eb91-4934-8b1f-6a2393fbb43a
+INFO | 2026-06-02 18:44:59,746 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=22939212-bead-4faf-974f-077b222aa003
+INFO | 2026-06-02 18:45:00,327 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=22939212-bead-4faf-974f-077b222aa003
+INFO | 2026-06-02 18:45:00,721 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=c7913764-1062-4527-babd-33649feeffb2
+INFO | 2026-06-02 18:45:01,322 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c7913764-1062-4527-babd-33649feeffb2
+INFO | 2026-06-02 18:45:01,872 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=e84e8747-9175-4a83-87a3-a8587c1b489f
+INFO | 2026-06-02 18:45:02,324 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e84e8747-9175-4a83-87a3-a8587c1b489f
+INFO | 2026-06-02 18:45:02,773 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=e766b798-9110-44d5-9c27-728ceaa81f2a
+INFO | 2026-06-02 18:45:03,212 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e766b798-9110-44d5-9c27-728ceaa81f2a
+INFO | 2026-06-02 18:45:03,655 | recs_repo.py:50 | upsert_asset | AssetMasterRepo.upsert_asset  details_id=6ad786a8-7108-4826-a7a6-0c9afcdc0c8f
+INFO | 2026-06-02 18:45:04,245 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6ad786a8-7108-4826-a7a6-0c9afcdc0c8f
+INFO | 2026-06-03 16:47:57,769 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-03 16:47:57,772 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-03 16:47:57,773 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+WARNING | 2026-06-03 16:47:59,241 | recs_router.py:166 | ingest_assets | Squeteek API-1 failed (non-fatal) — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+WARNING | 2026-06-03 16:47:59,241 | recs_router.py:178 | ingest_assets | Wazuh API failed: Client error '401 Unauthorized' for url 'https://172.16.1.172:55000/agents?pretty=true'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401. Proceeding without wazuh enrichment.
+INFO | 2026-06-03 16:49:29,100 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-03 16:49:29,101 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-03 16:49:29,104 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+WARNING | 2026-06-03 16:49:30,565 | recs_router.py:166 | ingest_assets | Squeteek API-1 failed (non-fatal) — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+WARNING | 2026-06-03 16:49:30,565 | recs_router.py:178 | ingest_assets | Wazuh API failed: Client error '401 Unauthorized' for url 'https://172.16.1.172:55000/agents?pretty=true'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401. Proceeding without wazuh enrichment.
+INFO | 2026-06-03 16:51:51,440 | recs_router.py:147 | ingest_assets | RECS ingest/assets: customer=Banyan Cloud squeteek_enabled=True wazuh_enabled=True
+INFO | 2026-06-03 16:51:51,441 | recs_connector.py:113 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo  page=1
+INFO | 2026-06-03 16:51:51,442 | recs_connector.py:273 | fetch_wazuh_agents | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+WARNING | 2026-06-03 16:51:52,939 | recs_router.py:166 | ingest_assets | Squeteek API-1 failed (non-fatal) — url=http://172.16.1.212:18180/  error=Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/assetInfo?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+WARNING | 2026-06-03 16:51:52,939 | recs_router.py:178 | ingest_assets | Wazuh API failed: Client error '401 Unauthorized' for url 'https://172.16.1.172:55000/agents?pretty=true'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401. Proceeding without wazuh enrichment.
+INFO | 2026-06-03 17:09:59,404 | recs_router.py:336 | ingest_details | RECS ingest/details: calling API-2 (configuration)
+INFO | 2026-06-03 17:09:59,413 | recs_connector.py:175 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/configuration  page=1
+WARNING | 2026-06-03 17:10:00,148 | recs_router.py:342 | ingest_details | API-2 failed: Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/configuration?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403. Proceeding with empty config.
+INFO | 2026-06-03 17:10:00,148 | recs_router.py:351 | ingest_details | RECS ingest/details: calling API-3 (vulnerability)
+INFO | 2026-06-03 17:10:00,149 | recs_connector.py:175 | _fetch_all_pages | RECSConnector  GET http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability  page=1
+WARNING | 2026-06-03 17:10:01,074 | recs_router.py:357 | ingest_details | API-3 failed: Client error '403 ' for url 'http://172.16.1.212:18180/analyzer/compliance-manager/vulnerability?customerName=Banyan%20Cloud&order=asc&page=1&limit=100'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403. Proceeding with empty vulns.
+INFO | 2026-06-03 17:10:01,075 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/agents  source=wazuh
+INFO | 2026-06-03 17:10:03,455 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=41831597-7e63-4020-b981-f6fa5e16bf79
+INFO | 2026-06-03 17:10:03,843 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=cf5194a9-5373-4078-9065-790f7a66c76b
+INFO | 2026-06-03 17:10:04,045 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=88466898-5176-4790-b811-725c0e56ed17
+INFO | 2026-06-03 17:10:04,046 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/services  source=wazuh
+INFO | 2026-06-03 17:10:04,048 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/ports  source=wazuh
+INFO | 2026-06-03 17:10:04,050 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/processes  source=wazuh
+INFO | 2026-06-03 17:10:04,051 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/050  source=wazuh
+WARNING | 2026-06-03 17:10:04,051 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:10:08,540 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/050/checks/cis_postgresql_13  source=wazuh
+INFO | 2026-06-03 17:10:16,682 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=7e891e2d-b4ac-4e52-94c2-80f2499deb2d
+INFO | 2026-06-03 17:10:17,257 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=a332b1e8-46ac-458a-8e13-8b2096ab3cb2
+INFO | 2026-06-03 17:10:17,634 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=58eb882f-f031-4eb9-8763-62ffbeb70fed
+INFO | 2026-06-03 17:10:18,048 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c686b0b8-72c2-447f-98ed-a9334484ff63
+INFO | 2026-06-03 17:10:18,443 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6db36409-e690-4fd6-8b3e-76c873959ff8
+INFO | 2026-06-03 17:10:18,847 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=9e458f38-3a7a-4307-924f-7ada69799d8b
+INFO | 2026-06-03 17:10:19,029 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d209fd70-1ffc-48f8-9638-033cfc9f2fb1
+INFO | 2026-06-03 17:10:19,213 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=864856d2-563a-4c4c-8f44-64161d57bf43
+INFO | 2026-06-03 17:10:19,396 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=cfbecc32-5303-4c00-89ec-c6800dd3aaa0
+INFO | 2026-06-03 17:10:19,576 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=290c13d2-ef49-4ea7-a812-de79fc13808e
+INFO | 2026-06-03 17:10:19,757 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=9310a7e9-f38e-4ec8-96e0-2a398f759ac5
+INFO | 2026-06-03 17:10:19,938 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=7a82a2f6-ad7b-4ef6-bee7-c0d0105c249a
+INFO | 2026-06-03 17:10:20,120 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6e853b21-7fb6-4727-9dcc-929a46ebb4bd
+INFO | 2026-06-03 17:10:20,301 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=756ff3a6-445d-4d96-8ee6-624f66395e83
+INFO | 2026-06-03 17:10:20,303 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/services  source=wazuh
+INFO | 2026-06-03 17:10:20,304 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/ports  source=wazuh
+INFO | 2026-06-03 17:10:20,306 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/processes  source=wazuh
+INFO | 2026-06-03 17:10:20,307 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/051  source=wazuh
+WARNING | 2026-06-03 17:10:20,307 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:10:25,000 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/051/checks/cis_win10_enterprise  source=wazuh
+INFO | 2026-06-03 17:10:45,092 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=25e7b0b6-4655-4795-9f7b-73a3b05a3430
+INFO | 2026-06-03 17:10:45,093 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/services  source=wazuh
+INFO | 2026-06-03 17:10:45,096 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/ports  source=wazuh
+INFO | 2026-06-03 17:10:45,097 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/processes  source=wazuh
+INFO | 2026-06-03 17:10:45,099 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044  source=wazuh
+WARNING | 2026-06-03 17:10:45,099 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:10:51,713 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044/checks/cis_win11_enterprise  source=wazuh
+INFO | 2026-06-03 17:11:00,366 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044/checks/cis_mssql_full_custom  source=wazuh
+INFO | 2026-06-03 17:11:05,756 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=594067a4-1b6f-4ce1-acb3-4e734ef13408
+INFO | 2026-06-03 17:11:06,206 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6187f906-d660-497d-bdd2-c0979e52fad6
+INFO | 2026-06-03 17:11:06,578 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d4eda95e-216c-44bc-874b-ee74113f14fa
+INFO | 2026-06-03 17:11:06,579 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/services  source=wazuh
+INFO | 2026-06-03 17:11:06,581 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/ports  source=wazuh
+INFO | 2026-06-03 17:11:06,582 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/processes  source=wazuh
+INFO | 2026-06-03 17:11:06,584 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037  source=wazuh
+WARNING | 2026-06-03 17:11:06,584 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:11:09,885 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037/checks/sca_distro_independent_linux  source=wazuh
+INFO | 2026-06-03 17:11:13,833 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037/checks/cis_bind_dns_9.9_v3.0.1  source=wazuh
+INFO | 2026-06-03 17:11:18,358 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e282cfc8-d76e-48c6-ab14-f5d10dc5fc6c
+INFO | 2026-06-03 17:11:18,735 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=d6e844f2-50c0-42db-92cf-a813dd7822c6
+INFO | 2026-06-03 17:11:19,141 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=bf25a112-ee1f-4de3-b377-7f4f35b75162
+INFO | 2026-06-03 17:11:19,325 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=686d4d73-955a-4fa6-98fa-aca16d819357
+INFO | 2026-06-03 17:11:19,510 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=1bdef7f6-646f-473a-b7a1-21a0a4f5c756
+INFO | 2026-06-03 17:11:19,693 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ce8e8480-1169-42e8-945b-978cc2892a3d
+INFO | 2026-06-03 17:11:19,697 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/000/services  source=wazuh
+INFO | 2026-06-03 17:11:19,704 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/000/ports  source=wazuh
+INFO | 2026-06-03 17:11:19,710 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/000/processes  source=wazuh
+INFO | 2026-06-03 17:11:19,716 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/000  source=wazuh
+WARNING | 2026-06-03 17:11:19,718 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:11:22,787 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/000/checks/cis_ubuntu24-04  source=wazuh
+INFO | 2026-06-03 17:11:33,249 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=294f03a9-e342-41c9-8de4-d5d61e6f0008
+INFO | 2026-06-03 17:11:33,250 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/001/services  source=wazuh
+INFO | 2026-06-03 17:11:33,251 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/001/ports  source=wazuh
+INFO | 2026-06-03 17:11:33,252 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/001/processes  source=wazuh
+INFO | 2026-06-03 17:11:33,253 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/001  source=wazuh
+WARNING | 2026-06-03 17:11:33,253 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:11:37,593 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/001/checks/cis_ubuntu24-04  source=wazuh
+INFO | 2026-06-03 17:11:46,084 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/001/checks/cis_apache  source=wazuh
+INFO | 2026-06-03 17:11:53,605 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ff2a519c-833b-4932-a1bc-b24402da54fd
+INFO | 2026-06-03 17:11:53,606 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/005/services  source=wazuh
+INFO | 2026-06-03 17:11:53,608 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/005/ports  source=wazuh
+INFO | 2026-06-03 17:11:53,609 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/005/processes  source=wazuh
+INFO | 2026-06-03 17:11:53,610 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/005  source=wazuh
+WARNING | 2026-06-03 17:11:53,610 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:11:55,806 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=0ada1a81-6067-4a0d-babe-1dcb85aeec5e
+INFO | 2026-06-03 17:11:55,807 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/025/services  source=wazuh
+INFO | 2026-06-03 17:11:55,807 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/025/ports  source=wazuh
+INFO | 2026-06-03 17:11:55,808 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/025/processes  source=wazuh
+INFO | 2026-06-03 17:11:55,809 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/025  source=wazuh
+WARNING | 2026-06-03 17:11:55,809 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:11:58,943 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/025/checks/cis_ubuntu22-04  source=wazuh
+INFO | 2026-06-03 17:12:05,588 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/025/checks/cis_tomcat9  source=wazuh
+INFO | 2026-06-03 17:12:08,026 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/025/checks/cis_nginx1  source=wazuh
+INFO | 2026-06-03 17:12:14,401 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=8ac9291c-7789-4979-8c54-e6ff401ea1b2
+INFO | 2026-06-03 17:12:14,402 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/services  source=wazuh
+INFO | 2026-06-03 17:12:14,403 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/ports  source=wazuh
+INFO | 2026-06-03 17:12:14,404 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/processes  source=wazuh
+INFO | 2026-06-03 17:12:14,406 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/030  source=wazuh
+WARNING | 2026-06-03 17:12:14,406 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:12:16,034 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=f3d5c869-2bf6-4dea-bd31-06634e43748b
+INFO | 2026-06-03 17:12:16,039 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/031/services  source=wazuh
+INFO | 2026-06-03 17:12:16,045 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/031/ports  source=wazuh
+INFO | 2026-06-03 17:12:16,052 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/031/processes  source=wazuh
+INFO | 2026-06-03 17:12:16,058 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/031  source=wazuh
+WARNING | 2026-06-03 17:12:16,061 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:12:20,365 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/031/checks/cis_ubuntu24-04  source=wazuh
+INFO | 2026-06-03 17:12:32,359 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=2f2b7e05-2e34-40a3-989b-574f61c1ca80
+INFO | 2026-06-03 17:12:32,360 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/services  source=wazuh
+INFO | 2026-06-03 17:12:32,361 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/ports  source=wazuh
+INFO | 2026-06-03 17:12:32,361 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/037/processes  source=wazuh
+INFO | 2026-06-03 17:12:32,362 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037  source=wazuh
+WARNING | 2026-06-03 17:12:32,363 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:12:35,265 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037/checks/sca_distro_independent_linux  source=wazuh
+INFO | 2026-06-03 17:12:40,437 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/037/checks/cis_bind_dns_9.9_v3.0.1  source=wazuh
+INFO | 2026-06-03 17:12:44,930 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=2bc0d8be-7b9e-4db5-8849-d0df5cca19b1
+INFO | 2026-06-03 17:12:44,932 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/042/services  source=wazuh
+INFO | 2026-06-03 17:12:44,934 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/042/ports  source=wazuh
+INFO | 2026-06-03 17:12:44,935 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/042/processes  source=wazuh
+INFO | 2026-06-03 17:12:44,936 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/042  source=wazuh
+WARNING | 2026-06-03 17:12:44,937 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:12:46,216 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/042/checks/cis_debian13  source=wazuh
+INFO | 2026-06-03 17:12:53,684 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=136a5da2-c70a-4b32-8193-9bb1e291f394
+INFO | 2026-06-03 17:12:53,686 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/043/services  source=wazuh
+INFO | 2026-06-03 17:12:53,688 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/043/ports  source=wazuh
+INFO | 2026-06-03 17:12:53,690 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/043/processes  source=wazuh
+INFO | 2026-06-03 17:12:53,691 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/043  source=wazuh
+WARNING | 2026-06-03 17:12:53,691 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:12:55,857 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/043/checks/cis_centos8_linux  source=wazuh
+INFO | 2026-06-03 17:13:00,486 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=749db32e-7893-4622-9dec-0f389b7e45c0
+INFO | 2026-06-03 17:13:00,487 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/services  source=wazuh
+INFO | 2026-06-03 17:13:00,488 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/ports  source=wazuh
+INFO | 2026-06-03 17:13:00,488 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/044/processes  source=wazuh
+INFO | 2026-06-03 17:13:00,489 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044  source=wazuh
+WARNING | 2026-06-03 17:13:00,489 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:13:04,583 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044/checks/cis_win11_enterprise  source=wazuh
+INFO | 2026-06-03 17:13:13,287 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/044/checks/cis_mssql_full_custom  source=wazuh
+INFO | 2026-06-03 17:13:19,324 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=96a0a4fe-b03d-484f-a474-955a052a4f84
+INFO | 2026-06-03 17:13:19,325 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/services  source=wazuh
+INFO | 2026-06-03 17:13:19,332 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/ports  source=wazuh
+INFO | 2026-06-03 17:13:19,334 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/030/processes  source=wazuh
+INFO | 2026-06-03 17:13:19,336 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/030  source=wazuh
+WARNING | 2026-06-03 17:13:19,337 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:13:21,741 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c327646b-5667-441a-bbfa-16f6a394d3e5
+INFO | 2026-06-03 17:13:21,743 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/services  source=wazuh
+INFO | 2026-06-03 17:13:21,744 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/ports  source=wazuh
+INFO | 2026-06-03 17:13:21,749 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/050/processes  source=wazuh
+INFO | 2026-06-03 17:13:21,750 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/050  source=wazuh
+WARNING | 2026-06-03 17:13:21,755 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:13:25,989 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/050/checks/cis_postgresql_13  source=wazuh
+INFO | 2026-06-03 17:13:30,340 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=ea61103c-eb91-4934-8b1f-6a2393fbb43a
+INFO | 2026-06-03 17:13:30,341 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/services  source=wazuh
+INFO | 2026-06-03 17:13:30,343 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/ports  source=wazuh
+INFO | 2026-06-03 17:13:30,344 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/051/processes  source=wazuh
+INFO | 2026-06-03 17:13:30,345 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/051  source=wazuh
+WARNING | 2026-06-03 17:13:30,345 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:13:35,924 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/051/checks/cis_win10_enterprise  source=wazuh
+INFO | 2026-06-03 17:13:48,146 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=22939212-bead-4faf-974f-077b222aa003
+INFO | 2026-06-03 17:13:48,147 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/052/services  source=wazuh
+INFO | 2026-06-03 17:13:48,149 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/052/ports  source=wazuh
+INFO | 2026-06-03 17:13:48,152 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/052/processes  source=wazuh
+INFO | 2026-06-03 17:13:48,154 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/052  source=wazuh
+WARNING | 2026-06-03 17:13:48,154 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:13:51,902 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/052/checks/cis_k8s_worker  source=wazuh
+INFO | 2026-06-03 17:13:54,207 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/052/checks/cis_amazon_linux_2023  source=wazuh
+INFO | 2026-06-03 17:14:02,822 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=c7913764-1062-4527-babd-33649feeffb2
+INFO | 2026-06-03 17:14:02,824 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/053/services  source=wazuh
+INFO | 2026-06-03 17:14:02,826 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/053/ports  source=wazuh
+INFO | 2026-06-03 17:14:02,827 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/053/processes  source=wazuh
+INFO | 2026-06-03 17:14:02,828 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/053  source=wazuh
+WARNING | 2026-06-03 17:14:02,829 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:14:06,371 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/053/checks/cis_k8s_master  source=wazuh
+INFO | 2026-06-03 17:14:08,882 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/053/checks/cis_amazon_linux_2023  source=wazuh
+INFO | 2026-06-03 17:14:17,830 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e84e8747-9175-4a83-87a3-a8587c1b489f
+INFO | 2026-06-03 17:14:17,831 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/055/services  source=wazuh
+INFO | 2026-06-03 17:14:17,833 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/055/ports  source=wazuh
+INFO | 2026-06-03 17:14:17,835 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/055/processes  source=wazuh
+INFO | 2026-06-03 17:14:17,836 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/055  source=wazuh
+WARNING | 2026-06-03 17:14:17,836 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:14:21,527 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/055/checks/docker_audit  source=wazuh
+INFO | 2026-06-03 17:14:24,810 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/055/checks/cis_amazon_linux_2023  source=wazuh
+INFO | 2026-06-03 17:14:33,861 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=e766b798-9110-44d5-9c27-728ceaa81f2a
+INFO | 2026-06-03 17:14:33,863 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/057/services  source=wazuh
+INFO | 2026-06-03 17:14:33,865 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/057/ports  source=wazuh
+INFO | 2026-06-03 17:14:33,866 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/syscollector/057/processes  source=wazuh
+INFO | 2026-06-03 17:14:33,867 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/057  source=wazuh
+WARNING | 2026-06-03 17:14:33,867 | recs_connector.py:356 | fetch_wazuh_vulnerabilities | Wazuh vulnerability auth is not configured; skipping vulnerabilities
+INFO | 2026-06-03 17:14:37,382 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/057/checks/cis_ubuntu22-04  source=wazuh
+INFO | 2026-06-03 17:14:44,340 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/057/checks/cis_bind_dns_9.9_v3.0.1  source=wazuh
+INFO | 2026-06-03 17:14:46,137 | recs_connector.py:137 | _wazuh_get | RECSConnector  GET https://172.16.1.172:55000/sca/057/checks/cis_apache  source=wazuh
+INFO | 2026-06-03 17:14:51,203 | recs_repo.py:87 | upsert_asset_details | AssetDetailsRepo.upsert  details_id=6ad786a8-7108-4826-a7a6-0c9afcdc0c8f

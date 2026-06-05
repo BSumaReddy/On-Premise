@@ -24,7 +24,51 @@ def _ts() -> float:
 # Collection-1 builder  (RECS_ONPREM_Asset_master_details)
 # ===========================================================================
 
-def build_asset_master_doc(raw_asset: dict) -> dict:
+def _normalize_tool_name(value: str | None) -> str:
+    """Normalize source tool names to stable values stored in DB."""
+    text = (value or "").strip()
+    if not text:
+        return RECS_TOOL_NAME
+
+    low = text.lower()
+    if "wazuh" in low:
+        return "Wazuh"
+    if "sequretek" in low or "squeteek" in low or "squeteek" in low:
+        return "SequreTek"
+    return text
+
+
+def _extract_asset_type(raw_asset: dict) -> str:
+    """Resolve asset type from common payload keys; never use tool name as type."""
+    candidate_keys = [
+        "asset_type", "assetType", "type", "category", "asset_category",
+        "device_type", "deviceType", "resource_type", "ProductType",
+    ]
+
+    for key in candidate_keys:
+        value = raw_asset.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+
+    product = raw_asset.get("Product")
+    if isinstance(product, str) and product.strip():
+        product_clean = product.strip()
+        if product_clean.lower() not in {"wazuh", "sequretek", "squeteek", "squeteek", "onprem_siem_tool"}:
+            return product_clean
+
+    os_value = raw_asset.get("os")
+    if isinstance(os_value, dict):
+        for k in ("type", "name", "full"):
+            v = os_value.get(k)
+            if isinstance(v, str) and v.strip():
+                return v.strip()
+    elif isinstance(os_value, str) and os_value.strip():
+        return os_value.strip()
+
+    return "Unknown"
+
+
+def build_asset_master_doc(raw_asset: dict, source_tool: str | None = None) -> dict:
     """
     Create a Collection-1 document from a single raw asset dict returned by API-1.
 
@@ -42,16 +86,18 @@ def build_asset_master_doc(raw_asset: dict) -> dict:
     """
     details_id = str(uuid.uuid4())
     now_ts = _ts()
+    resolved_tool = _normalize_tool_name(source_tool or raw_asset.get("_source_tool") or raw_asset.get("tool_name"))
+    resolved_asset_type = _extract_asset_type(raw_asset)
 
     return {
         # --- internal tracking ---
         "details_id":                          details_id,
         # --- schema fields ---
-        "onprem_siem_tool":                    RECS_TOOL_NAME,
+        "onprem_siem_tool":                    resolved_tool,
         "onprem_asset_name":                   raw_asset.get("asset_name") or "",
         "onprem_asset_ip":                     raw_asset.get("ip_address") or "",
         "onprem_asset_id":                     raw_asset.get("asset_id") or "",
-        "onprem_asset_type":                   raw_asset.get("Product") or raw_asset.get("os") or "",
+        "onprem_asset_type":                   resolved_asset_type,
         "customer_name":                       raw_asset.get("customerName") or "",
         "encs_tags":                           {
             "criticality": raw_asset.get("criticality"),
@@ -72,7 +118,7 @@ def build_asset_master_doc(raw_asset: dict) -> dict:
         "asset_id":   raw_asset.get("asset_id") or "",
         "hostname":   raw_asset.get("asset_name") or "",
         "ip_address": raw_asset.get("ip_address") or "",
-        "tool_name":  RECS_TOOL_NAME,
+        "tool_name":  resolved_tool,
     }
 
 

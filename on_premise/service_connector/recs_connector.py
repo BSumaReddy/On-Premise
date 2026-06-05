@@ -23,6 +23,16 @@ from on_premise.utils.logging import logger
 # ---------------------------------------------------------------------------
 DEFAULT_TOKEN = os.getenv("RECS_TOOL_TOKEN", "")
 DEFAULT_CUSTOMER_NAME = os.getenv("RECS_CUSTOMER_NAME", "Banyan Cloud")
+DEFAULT_WAZUH_BASE_URL = os.getenv("RECS_WAZUH_BASE_URL", "https://172.16.1.172:55000").rstrip("/")
+DEFAULT_WAZUH_TOKEN = os.getenv("RECS_WAZUH_TOKEN", "")
+DEFAULT_WAZUH_USERNAME = os.getenv("RECS_WAZUH_USERNAME", "")
+DEFAULT_WAZUH_PASSWORD = os.getenv("RECS_WAZUH_PASSWORD", "")
+DEFAULT_WAZUH_AUTH_PATH = os.getenv("RECS_WAZUH_AUTH_PATH", "/security/user/authenticate")
+DEFAULT_WAZUH_CA_CHECKS_PATH_PREFIX = os.getenv("RECS_WAZUH_CA_CHECKS_PATH_PREFIX", "/sca")
+DEFAULT_WAZUH_VULN_BASE_URL = os.getenv("RECS_WAZUH_VULN_BASE_URL", "https://localhost:9200").rstrip("/")
+DEFAULT_WAZUH_VULN_INDEX = os.getenv("RECS_WAZUH_VULN_INDEX", "wazuh-states-vulnerabilities-*")
+DEFAULT_WAZUH_VULN_USERNAME = os.getenv("RECS_WAZUH_VULN_USERNAME", "")
+DEFAULT_WAZUH_VULN_PASSWORD = os.getenv("RECS_WAZUH_VULN_PASSWORD", "")
 PAGE_SIZE = 100          # records per page when fetching all pages
 TIMEOUT = httpx.Timeout(connect=30.0, read=120.0, write=30.0, pool=5.0)
 
@@ -36,6 +46,104 @@ def _headers(token: str | None = None) -> dict:
 
 def _base_url() -> str:
     return os.getenv("RECS_TOOL_BASE_URL", "").rstrip("/")
+
+
+def _wazuh_headers(token: str | None = None) -> dict:
+    tok = token or DEFAULT_WAZUH_TOKEN
+    if tok and not tok.startswith("Bearer "):
+        tok = f"Bearer {tok}"
+    return {
+        "Authorization": tok,
+        "Content-Type": "application/json",
+        "accept": "application/json",
+    }
+
+
+def _strip_bearer(token: str | None) -> str:
+    """Normalize token for cases where caller sends bare token or Bearer token."""
+    tok = (token or "").strip()
+    if tok.lower().startswith("bearer "):
+        return tok[7:].strip()
+    return tok
+
+
+async def _fetch_wazuh_auth_token(
+    client: httpx.AsyncClient,
+    base_url: str,
+    username: str,
+    password: str,
+) -> str:
+    """Get fresh Wazuh JWT from /security/user/authenticate?raw=true."""
+    auth_url = f"{base_url}{DEFAULT_WAZUH_AUTH_PATH}"
+    response = await client.post(
+        auth_url,
+        params={"raw": "true"},
+        auth=(username, password),
+        headers={"accept": "application/json"},
+    )
+    response.raise_for_status()
+
+    body = response.text.strip()
+    if not body:
+        raise ValueError("Wazuh auth response token is empty")
+    return body
+
+
+def _parse_wazuh_items(body: dict | list) -> list[dict]:
+    """Extract a list payload from common Wazuh response shapes."""
+    if isinstance(body, list):
+        return [r for r in body if isinstance(r, dict)]
+
+    if isinstance(body, dict):
+        data = body.get("data", {})
+        if isinstance(data, dict):
+            items = data.get("affected_items")
+            if isinstance(items, list):
+                return [r for r in items if isinstance(r, dict)]
+
+        direct = body.get("affected_items")
+        if isinstance(direct, list):
+            return [r for r in direct if isinstance(r, dict)]
+
+    return []
+
+
+async def _wazuh_get(
+    path: str,
+    token: str | None = None,
+    base_url: str | None = None,
+    params: dict | None = None,
+) -> list[dict]:
+    """Call a Wazuh GET endpoint and normalize list-like responses."""
+    resolved_base_url = (base_url or DEFAULT_WAZUH_BASE_URL).rstrip("/")
+    url = f"{resolved_base_url}{path}"
+
+    async with httpx.AsyncClient(timeout=TIMEOUT, verify=False) as client:
+        resolved_token = _strip_bearer(token) or _strip_bearer(DEFAULT_WAZUH_TOKEN)
+        if not resolved_token and DEFAULT_WAZUH_USERNAME and DEFAULT_WAZUH_PASSWORD:
+            resolved_token = await _fetch_wazuh_auth_token(
+                client=client,
+                base_url=resolved_base_url,
+                username=DEFAULT_WAZUH_USERNAME,
+                password=DEFAULT_WAZUH_PASSWORD,
+            )
+
+        if not resolved_token:
+            raise ValueError(
+                "Wazuh token missing. Pass X-Wazuh-Token or set RECS_WAZUH_TOKEN, "
+                "or configure RECS_WAZUH_USERNAME/RECS_WAZUH_PASSWORD."
+            )
+
+        logger.info(f"RECSConnector  GET {url}  source=wazuh")
+        response = await client.get(
+            url,
+            headers=_wazuh_headers(resolved_token),
+            params={"pretty": "true", **(params or {})},
+        )
+        response.raise_for_status()
+        body = response.json()
+
+    return _parse_wazuh_items(body)
 
 
 # ---------------------------------------------------------------------------
@@ -186,4 +294,94 @@ async def fetch_vulnerability(asset_id: str, token: str | None = None) -> dict:
         if str(r.get("asset_id", "")) == str(asset_id):
             return r
     return {}
+
+
+# ---------------------------------------------------------------------------
+# Wazuh API : /agents?pretty=true  — all agents
+# ---------------------------------------------------------------------------
+async def fetch_wazuh_agents(
+    token: str | None = None,
+    base_url: str | None = None,
+) -> list[dict]:
+    """
+    Fetch all Wazuh agents.
+
+    Expected response shape (Wazuh):
+        {"data": {"affected_items": [...]}}
+    """
+    return await _wazuh_get("/agents", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_services(agent_id: str, token: str | None = None, base_url: str | None = None) -> list[dict]:
+    return await _wazuh_get(f"/syscollector/{agent_id}/services", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_ports(agent_id: str, token: str | None = None, base_url: str | None = None) -> list[dict]:
+    return await _wazuh_get(f"/syscollector/{agent_id}/ports", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_processes(agent_id: str, token: str | None = None, base_url: str | None = None) -> list[dict]:
+    return await _wazuh_get(f"/syscollector/{agent_id}/processes", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_sca_policies(agent_id: str, token: str | None = None, base_url: str | None = None) -> list[dict]:
+    return await _wazuh_get(f"/sca/{agent_id}", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_sca_checks(
+    agent_id: str,
+    policy_id: str,
+    token: str | None = None,
+    base_url: str | None = None,
+) -> list[dict]:
+    """Fetch policy checks using the configured checks path prefix."""
+    prefix = DEFAULT_WAZUH_CA_CHECKS_PATH_PREFIX.rstrip("/")
+    return await _wazuh_get(f"{prefix}/{agent_id}/checks/{policy_id}", token=token, base_url=base_url)
+
+
+async def fetch_wazuh_vulnerabilities(
+    agent_id: str,
+    base_url: str | None = None,
+    username: str | None = None,
+    password: str | None = None,
+    index: str | None = None,
+) -> list[dict]:
+    """Query Wazuh vulnerability index for one agent id."""
+    resolved_base_url = (base_url or DEFAULT_WAZUH_VULN_BASE_URL).rstrip("/")
+    resolved_index = index or DEFAULT_WAZUH_VULN_INDEX
+    resolved_username = username or DEFAULT_WAZUH_VULN_USERNAME
+    resolved_password = password or DEFAULT_WAZUH_VULN_PASSWORD
+
+    if not resolved_username or not resolved_password:
+        logger.warning("Wazuh vulnerability auth is not configured; skipping vulnerabilities")
+        return []
+
+    url = f"{resolved_base_url}/{resolved_index}/_search"
+    payload = {"query": {"term": {"agent.id": str(agent_id)}}}
+
+    async with httpx.AsyncClient(timeout=TIMEOUT, verify=False) as client:
+        logger.info(f"RECSConnector  GET {url}  source=wazuh-vuln agent_id={agent_id}")
+        response = await client.post(
+            url,
+            auth=(resolved_username, resolved_password),
+            headers={"Content-Type": "application/json", "accept": "application/json"},
+            json=payload,
+            params={"pretty": "true"},
+        )
+        response.raise_for_status()
+        body = response.json()
+
+    hits = (((body.get("hits") or {}).get("hits")) or []) if isinstance(body, dict) else []
+    if not isinstance(hits, list):
+        return []
+
+    out: list[dict] = []
+    for item in hits:
+        if not isinstance(item, dict):
+            continue
+        src = item.get("_source")
+        if isinstance(src, dict):
+            out.append(src)
+    return out
+
 
